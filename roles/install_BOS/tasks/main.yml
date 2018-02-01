@@ -1,5 +1,5 @@
 # Configure Bass Operating System for OpenHPC
 
--name: add sms hostname to /etc/hosts
+- name: add sms hostname to /etc/hosts
   shell: echo {{sms_ip}} {{sms_name}} >> /etc/hosts
   when:
