@@ -1,7 +1,7 @@
 
 - name: Enable OpenHPC Repo for local use
   yum:
-    name: {{ ohpc_repo }}
+    name: "{{ ohpc_repo }}"
     state: present
 
 - name: Enable EPEL

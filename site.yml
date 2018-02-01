@@ -9,5 +9,5 @@
   roles:
     #- yum_update
     #- install_bos
-    - enable_ophc_repo
+    - enable_ohpc_repo
     
