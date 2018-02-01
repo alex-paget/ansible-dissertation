@@ -1,5 +1,18 @@
 # Configure Bass Operating System for OpenHPC
 
-- name: add sms hostname to /etc/hosts
-  shell: echo {{sms_ip}} {{sms_name}} >> /etc/hosts
-  when:
+- name: Add sms hostname to /etc/hosts
+  - lineinfile:
+    path: /etc/hosts
+    state: absent
+    regexp: {{ sms_ip }} {{ sms_name }}
+    line: {{ sms_ip }} {{ sms_name }}
+    insertafter: EOF
+
+- name: Disable and stop firewalld
+  name: firewalld
+  state: stopped
+  enabled: no
+
+- name: Stop and disable SELinux
+  - selinux:
+    state: disabled
