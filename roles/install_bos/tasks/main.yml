@@ -1,5 +1,10 @@
 # Configure Bass Operating System for OpenHPC
 
+- name: Update packages
+  yum:
+    name=*
+    state=latest
+
 - name: Add sms hostname to /etc/hosts
   lineinfile:
     path: /etc/hosts
@@ -17,3 +22,17 @@
 - name: Stop and disable SELinux
   selinux:
     state: disabled
+
+- name: Reboot to enable changes
+  shell: sleep 2 && shutdown -r now "Ansible Requires a Reboot"
+  async: 1
+  poll: 0
+  ignore_errors: true
+
+- name: Wait for server to come back up
+  local_action:
+    wait_for host=inventory_hostname
+    state=started
+    delay=30
+    time=300
+    sudo=false
