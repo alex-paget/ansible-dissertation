@@ -1,0 +1,4 @@
+# Default variables if not added by user
+
+sms_ip: "{{ ansible_default_ipv4.address }}"
+sms_name: "{{ ansible_hostname }}"
