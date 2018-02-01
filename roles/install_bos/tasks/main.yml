@@ -3,7 +3,7 @@
 - name: Add sms hostname to /etc/hosts
   lineinfile:
     path: /etc/hosts
-    state: absent
+    state: present
     regexp: "{{ sms_ip }} {{ sms_name }}"
     line: "{{ sms_ip }} {{ sms_name }}"
     insertafter: EOF
