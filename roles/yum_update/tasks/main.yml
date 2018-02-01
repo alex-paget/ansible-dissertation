@@ -1,0 +1,6 @@
+# This playbook runs yum update on the target node
+
+- name: Update packages
+  yum:
+    name=*
+    state=latest

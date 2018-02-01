@@ -1,0 +1,10 @@
+# This playbook deploys the whole OpenHPC software stack
+
+-name: Run all the roles
+  hosts: all
+  remote_user: afpaget
+  become: yes
+  become_method: sudo
+
+  roles:
+    - yum_update
