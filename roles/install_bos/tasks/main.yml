@@ -29,6 +29,10 @@
   poll: 0
   ignore_errors: true
 
+- name: Pause
+  pause:
+    seconds: 30
+
 - name: Wait for machine to come back online
   wait_for:
     host: "{{ ansible_host }}"

@@ -1,6 +1,6 @@
 # This playbook deploys the whole OpenHPC software stack
 
-- name: Run all the roles
+- name: Deploy OpenHPC
   hosts: all
   remote_user: afpaget
   become: yes
