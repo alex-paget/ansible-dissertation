@@ -10,4 +10,5 @@
    # - install_bos
    # - enable_ohpc_repo
    # - add_provision
-    - resource_management
+   # - resource_management
+    - infiniband_support

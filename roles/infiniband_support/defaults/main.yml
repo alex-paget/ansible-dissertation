@@ -1,0 +1,4 @@
+# Default IPoIB IP
+master_ipoib: 192.168.5.1
+# Default IPoIB Netmask
+ipoib_netmask: 255.255.255.0

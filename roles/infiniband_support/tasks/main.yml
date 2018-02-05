@@ -1,0 +1,27 @@
+# Add InfiniBand support services on master node
+
+- name: Install InfiniBand Support
+  yum:
+    name="@InfiniBand Support"
+    state=latest
+
+- name: Install infinipath-psm
+  yum:
+    name=infinipath-psm
+    state=latest
+
+- name: Load IB drivers
+  service:
+    name: rdma
+    state: started
+    enabled: yes
+
+- name: Copy IBoIB config file to headnode
+  copy:
+    src=ifcfg-ib0.j2
+    dest=/etc/sysconfig/network-scripts/ifcfg-ib0
+
+- name: Bring ib0 up
+  net_interface:
+    name: ib0
+    state: up

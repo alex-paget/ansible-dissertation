@@ -1,0 +1,8 @@
+# IB0 template file for CentOS
+DEVICE=ib0
+BOOTPROTO=static
+IPADDR={{ master_ipoib }}
+NETMASK={{ ipoib_netmask }}
+ONBOOT=yes
+STARTMODE='auto'
+NM_CONTROLLED=no
