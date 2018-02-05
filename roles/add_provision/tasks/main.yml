@@ -1,0 +1,30 @@
+# Add provisioning services to the master node
+
+name: Install ohpc-base
+  yum:
+    name: ohpc-base
+    state: latest
+
+name: Install ohpc-warewulf
+  yum:
+    name: ohpc-warewulf
+    state: latest
+
+name: Install Chrony (as NTP client)
+  yum:
+    name: chrony
+    state: latest
+
+name: Write NTP server to file
+  lineinfile:
+    path: /etc/chrony.conf
+    state: present
+    regexp: "server {{ ntp_server }} iburst"
+    line: "server {{ ntp_server }} iburst"
+    insertafter: "# Please consider joining the pool (http://www.pool.ntp.org/join.html)."
+
+name: Enable Chrony
+  service:
+    name: chronyd
+    state: restarted
+    enabled: yes

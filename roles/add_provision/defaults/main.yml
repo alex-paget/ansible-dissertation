@@ -1,0 +1,3 @@
+# Default NTP server
+
+ntp_server: 0.centos.pool.ntp.org
