@@ -1,0 +1,3 @@
+# Default slurm hostname
+
+sms_name: "{{ ansible_hostname }}"

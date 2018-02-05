@@ -1,14 +1,14 @@
 # Add provisioning services to the master node
 
 - name: Install ohpc-base
-  yum: 
+  yum:
     name=ohpc-base
-    state=latest
+    state=present
 
 - name: Install ohpc-warewulf
   yum:
     name=ohpc-warewulf
-    state=latest
+    state=present
 
 - name: Install Chrony (as NTP client)
   yum:

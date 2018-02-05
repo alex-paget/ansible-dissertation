@@ -1,0 +1,13 @@
+# Add resource management services on master node
+
+- name: Install Slurm server meta-package
+  yum:
+    name=ohpc-slurm-server
+    state=present
+
+- name: Identify resource manager hostname
+  lineinfile:
+    path: /etc/slurm/slurm.conf
+    state: present
+    regexp: "ControlMachine=/"
+    line: "ControlMachine={{ sms_name }}"
