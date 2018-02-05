@@ -16,8 +16,8 @@
     state: started
     enabled: yes
 
-- name: Copy IBoIB config file to headnode
-  copy:
+- name: Configure IBoIB
+  template:
     src=ifcfg-ib0.j2
     dest=/etc/sysconfig/network-scripts/ifcfg-ib0
 
