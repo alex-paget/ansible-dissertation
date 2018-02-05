@@ -6,8 +6,8 @@
     state=present
 
 - name: Identify resource manager hostname
-  lineinfile:
+  replace:
     path: /etc/slurm/slurm.conf
-    state: present
-    regexp: "ControlMachine=/"
-    line: "ControlMachine={{ sms_name }}"
+    regexp: 'ControlMachine=(.*)'
+    replace: "ControlMachine={{ sms_name }}"
+    backup: yes

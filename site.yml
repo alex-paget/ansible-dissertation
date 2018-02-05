@@ -9,4 +9,5 @@
   roles:
    # - install_bos
    # - enable_ohpc_repo
-    - add_provision
+   # - add_provision
+    - resource_management
