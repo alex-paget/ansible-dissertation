@@ -7,5 +7,6 @@
   become_method: sudo
 
   roles:
-    - install_bos
+   # - install_bos
    # - enable_ohpc_repo
+    - add_provision
