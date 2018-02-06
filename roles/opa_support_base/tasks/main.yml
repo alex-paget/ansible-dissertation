@@ -1,0 +1,12 @@
+# Add Omni-Path support services on Master Node
+
+- name: Install opa-basic-tools
+  yum:
+    name=opa-basic-tools
+    state=present
+
+- name: Restart RDMA
+  service:
+    name: rdma
+    state: restarted
+    enabled: yes
