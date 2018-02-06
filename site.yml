@@ -11,4 +11,5 @@
    # - enable_ohpc_repo
    # - add_provision
    # - resource_management
-    - infiniband_support
+   # - infiniband_support
+    - opa_support_base
