@@ -1,0 +1,38 @@
+# Add OpenHPC components to compute image
+
+- name: Install ohpc-base-compute
+  yum:
+    name: ohpc-base-compute
+    state: present
+    installroot: "{{ chroot }}"
+
+- name: Copy reslov.conf into chroot
+  copy:
+    src: /etc/resolv.conf
+    dest: "{{ chroot }}/etc/resolv.conf"
+    remote_src: yes
+
+# Additional packages to install in the chroot
+- name: Install slurm client support meta-package
+  yum:
+    name: ohpc-slurm-client
+    state: present
+    installroot: "{{ chroot }}"
+
+- name: Install NTP support
+  yum:
+    name: chrony
+    state: present
+    installroot: "{{ chroot }}"
+
+- name: Install kernel drivers
+  yum:
+    name: kernel
+    state: present
+    installroot: "{{ chroot }}"
+
+- name: Include modules user enviornment
+  yum:
+    name: lmod-ohpc
+    state: present
+    installroot: "{{ chroot }}"

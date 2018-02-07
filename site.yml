@@ -14,4 +14,5 @@
    # - infiniband_support
    # - opa_support_base
    # - basic_warewulf
-    - initial_bos_image
+   # - initial_bos_image
+    - ohpc_components
