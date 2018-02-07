@@ -13,4 +13,5 @@
    # - resource_management
    # - infiniband_support
    # - opa_support_base
-    - basic_warewulf
+   # - basic_warewulf
+    - initial_bos_image
