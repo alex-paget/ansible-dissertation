@@ -10,7 +10,7 @@
 - name: Enable tftp service for compute node image distribution
   replace:
     path: /etc/xinetd.d/tftp
-    regexp: 'disable                 = yes'
+    regexp: 'disable(.*)'
     replace: 'disable                 = no'
     backup: yes
 
@@ -20,14 +20,10 @@
     dest="/etc/sysconfig/network-scripts/ifcfg-{{ sms_eth_internal }}"
 
 - name: Bring internal interface down
-  net_interface:
-    name: "{{ sms_eth_internal }}"
-    state: down
+  shell: "ifdown {{ sms_eth_internal }}"
 
 - name: Bring internal interface up
-  net_interface:
-    name: "{{ sms_eth_internal}}"
-    state: up
+  shell: "ifup {{ sms_eth_internal }}"
 
 # Restart and enable services to support provisioning
 - name: Restart and enable xinetd
