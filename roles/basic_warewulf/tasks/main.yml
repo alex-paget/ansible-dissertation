@@ -1,0 +1,54 @@
+# Complete basic Warewulf setup for master node
+
+- name: Configure Warewulf provisioning to use desired internal interface
+  replace:
+    path: /etc/warewulf/provision.conf
+    regexp: 'device = eth1(.*)'
+    replace: "device = {{ sms_eth_internal }}"
+    backup: yes
+
+- name: Enable tftp service for compute node image distribution
+  replace:
+    path: /etc/xinetd.d/tftp
+    regexp: 'disable                 = yes'
+    replace: 'disable                 = no'
+    backup: yes
+
+- name: Enable internal interface for provisioning
+  template:
+    src=eth.j2
+    dest="/etc/sysconfig/network-scripts/ifcfg-{{ sms_eth_internal }}"
+
+- name: Bring internal interface down
+  net_interface:
+    name: "{{ sms_eth_internal }}"
+    state: down
+
+- name: Bring internal interface up
+  net_interface:
+    name: "{{ sms_eth_internal}}"
+    state: up
+
+# Restart and enable services to support provisioning
+- name: Restart and enable xinetd
+  service:
+    name: xinetd
+    state: restarted
+    enabled: yes
+
+- name: Restart and enable mariadb
+  service:
+    name: mariadb
+    state: restarted
+    enabled: yes
+
+- name: Restart and enable httpd
+  service:
+    name: httpd
+    state: restarted
+    enabled: yes
+
+- name: Enable dhcpd
+  service:
+    name: dhcpd
+    enabled: yes

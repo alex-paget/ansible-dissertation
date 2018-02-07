@@ -1,0 +1,6 @@
+# Default sms_eth_internal name
+
+sms_eth_internal: eth1
+sms_ip: 192.168.0.1
+sms_netmask: 255.255.255.0
+sms_network: 192.168.0.0
