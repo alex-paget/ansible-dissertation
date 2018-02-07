@@ -21,7 +21,8 @@
     src=ifcfg-ib0.j2
     dest=/etc/sysconfig/network-scripts/ifcfg-ib0
 
+- name: Bring ib0 down (incase it is running)
+  shell: "ifdown ib0"
+
 - name: Bring ib0 up
-  net_interface:
-    name: ib0
-    state: up
+  shell: "ifup ib0"
