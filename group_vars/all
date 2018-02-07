@@ -6,3 +6,4 @@ sms_name: "{{ ansible_hostname }}"
 sms_eth_internal: "{{ ansible_ens37.device }}"
 sms_netmask: "{{ ansible_ens37.ipv4.netmask }}"
 sms_network: "{{ ansible_ens37.ipv4.network }}"
+# chroot:

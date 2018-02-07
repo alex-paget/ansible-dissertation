@@ -1,0 +1,2 @@
+# Default chroot file path
+chroot: /opt/ohpc/admin/images/centos7.4

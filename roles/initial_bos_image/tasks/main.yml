@@ -1,0 +1,4 @@
+# Build initial BOS image
+
+- name: Build inital chroot image
+  shell: "wwmkchroot centos-7 {{ chroot }}"
