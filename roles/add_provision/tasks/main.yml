@@ -2,13 +2,13 @@
 
 - name: Install ohpc-base
   yum:
-    name=ohpc-base
-    state=present
+    name: ohpc-base
+    state: present
 
 - name: Install ohpc-warewulf
   yum:
-    name=ohpc-warewulf
-    state=present
+    name: ohpc-warewulf
+    state: present
 
 - name: Install Chrony (as NTP client)
   yum:

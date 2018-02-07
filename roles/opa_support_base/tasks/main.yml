@@ -2,8 +2,8 @@
 
 - name: Install opa-basic-tools
   yum:
-    name=opa-basic-tools
-    state=present
+    name: opa-basic-tools
+    state: present
 
 - name: Restart RDMA
   service:

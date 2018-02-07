@@ -2,8 +2,8 @@
 
 - name: Install Slurm server meta-package
   yum:
-    name=ohpc-slurm-server
-    state=present
+    name: ohpc-slurm-server
+    state: present
 
 - name: Identify resource manager hostname
   replace:

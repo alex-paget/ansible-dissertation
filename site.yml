@@ -7,12 +7,12 @@
   become_method: sudo
 
   roles:
-   # - install_bos
+    - install_bos
    # - enable_ohpc_repo
-   # - add_provision
+    - add_provision
    # - resource_management
-   # - infiniband_support
-   # - opa_support_base
+    - infiniband_support
+    - opa_support_base
    # - basic_warewulf
    # - initial_bos_image
     - ohpc_components

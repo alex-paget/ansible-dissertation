@@ -2,13 +2,13 @@
 
 - name: Install InfiniBand Support
   yum:
-    name="@InfiniBand Support"
-    state=latest
+    name: "@InfiniBand Support"
+    state: latest
 
 - name: Install infinipath-psm
   yum:
-    name=infinipath-psm
-    state=latest
+    name: infinipath-psm
+    state: latest
 
 - name: Load IB drivers
   service:

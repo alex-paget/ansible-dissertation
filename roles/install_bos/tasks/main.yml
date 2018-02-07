@@ -2,8 +2,8 @@
 
 - name: Update packages
   yum:
-    name=*
-    state=latest
+    name: *
+    state: latest
 
 - name: Add sms hostname to /etc/hosts
   lineinfile:
