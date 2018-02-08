@@ -5,6 +5,7 @@
 
 - name: Initialse warewulf ssh_keys
   shell: "wwinit ssh_keys"
+  ignore_errors: yes
 
 # Add NFS client mounts of /home and /opt/ohpc/pub to base image
 - name: Add /home to fstab in chroot
@@ -27,17 +28,17 @@
 - name: Export /home from headnode
   lineinfile:
     path: /etc/exports
-    state: present
-    regexp: "/home *(rw,no_subtree_check,fsid=10,no_root_squash)"
-    line: "/home *(rw,no_subtree_check,fsid=10,no_root_squash)"
+    state: absent
+    regexp: '/home *(rw,no_subtree_check,fsid=10,no_root_squash)'
+    line: '/home *(rw,no_subtree_check,fsid=10,no_root_squash)'
     insertafter: EOF
 
 - name: Export /opt/ohpc/pub from headnode
   lineinfile:
     path: /etc/exports
-    state: present
-    regexp: "/opt/ohpc/pub *(ro,no_subtree_check,fsid=11)"
-    line: "/opt/ohpc/pub *(ro,no_subtree_check,fsid=11)"
+    state: absent
+    regexp: '/opt/ohpc/pub *(ro,no_subtree_check,fsid=11)'
+    line: '/opt/ohpc/pub *(ro,no_subtree_check,fsid=11)'
     insertafter: EOF
 
 - name: Export update /etc/exports
