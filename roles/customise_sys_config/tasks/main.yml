@@ -12,33 +12,33 @@
   lineinfile:
     path: "{{ chroot }}/etc/fstab"
     state: present
-    regexp: "{{ sms_ip }}:/home /home nfs nfsvers=3,nodev,nosuid,noatime 0 0"
-    line: "{{ sms_ip }}:/home /home nfs nfsvers=3,nodev,nosuid,noatime 0 0"
+    regexp: "{{ sms_ip }}:{{ home_mount }} {{ home_mount }} nfs nfsvers=3,nodev,nosuid,noatime 0 0"
+    line: "{{ sms_ip }}:{{ home_mount }} {{ home_mount }} nfs nfsvers=3,nodev,nosuid,noatime 0 0"
     insertafter: EOF
 
 - name: Add /opt/ohpc/pub to fstab in chroot
   lineinfile:
     path: "{{ chroot }}/etc/fstab"
     state: present
-    regexp: "{{ sms_ip }}:/opt/ohpc/pub /opt/ohpc/pub nfs nfsvers=3,nodev,noatime 0 0"
-    line: "{{ sms_ip }}:/opt/ohpc/pub /opt/ohpc/pub nfs nfsvers=3,nodev,noatime 0 0"
+    regexp: "{{ sms_ip }}:{{ opt_mount }} {{ opt_mount }} nfs nfsvers=3,nodev,noatime 0 0"
+    line: "{{ sms_ip }}:{{ opt_mount }} {{ opt_mount }} nfs nfsvers=3,nodev,noatime 0 0"
     insertafter: EOF
 
   # Export /home and OpenHPC public packages from master server
 - name: Export /home from headnode
   lineinfile:
     path: /etc/exports
-    state: absent
-    regexp: '/home *(rw,no_subtree_check,fsid=10,no_root_squash)'
-    line: '/home *(rw,no_subtree_check,fsid=10,no_root_squash)'
+    state: present
+    regexp: "{{ home_mount }} \\*\\(rw,no_subtree_check,fsid=10,no_root_squash\\)"
+    line: "{{ home_mount }} *(rw,no_subtree_check,fsid=10,no_root_squash)"
     insertafter: EOF
 
 - name: Export /opt/ohpc/pub from headnode
   lineinfile:
     path: /etc/exports
-    state: absent
-    regexp: '/opt/ohpc/pub *(ro,no_subtree_check,fsid=11)'
-    line: '/opt/ohpc/pub *(ro,no_subtree_check,fsid=11)'
+    state: present
+    regexp: "{{ opt_mount }} \\*\\(ro,no_subtree_check,fsid=11\\)"
+    line: "{{ opt_mount }} *(ro,no_subtree_check,fsid=11)"
     insertafter: EOF
 
 - name: Export update /etc/exports
