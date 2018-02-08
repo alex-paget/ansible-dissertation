@@ -1,0 +1,3 @@
+# Default chroot location
+chroot: /opt/ohpc/admin/images/centos7.4
+sms_ip: 192.168.0.1

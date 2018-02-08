@@ -1,0 +1,59 @@
+# Customise system configuration
+
+- name: Initialse warewulf database
+  shell: "wwinit database"
+
+- name: Initialse warewulf ssh_keys
+  shell: "wwinit ssh_keys"
+
+# Add NFS client mounts of /home and /opt/ohpc/pub to base image
+- name: Add /home to fstab in chroot
+  lineinfile:
+    path: "{{ chroot }}/etc/fstab"
+    state: present
+    regexp: "{{ sms_ip }}:/home /home nfs nfsvers=3,nodev,nosuid,noatime 0 0"
+    line: "{{ sms_ip }}:/home /home nfs nfsvers=3,nodev,nosuid,noatime 0 0"
+    insertafter: EOF
+
+- name: Add /opt/ohpc/pub to fstab in chroot
+  lineinfile:
+    path: "{{ chroot }}/etc/fstab"
+    state: present
+    regexp: "{{ sms_ip }}:/opt/ohpc/pub /opt/ohpc/pub nfs nfsvers=3,nodev,noatime 0 0"
+    line: "{{ sms_ip }}:/opt/ohpc/pub /opt/ohpc/pub nfs nfsvers=3,nodev,noatime 0 0"
+    insertafter: EOF
+
+  # Export /home and OpenHPC public packages from master server
+- name: Export /home from headnode
+  lineinfile:
+    path: /etc/exports
+    state: present
+    regexp: "/home *(rw,no_subtree_check,fsid=10,no_root_squash)"
+    line: "/home *(rw,no_subtree_check,fsid=10,no_root_squash)"
+    insertafter: EOF
+
+- name: Export /opt/ohpc/pub from headnode
+  lineinfile:
+    path: /etc/exports
+    state: present
+    regexp: "/opt/ohpc/pub *(ro,no_subtree_check,fsid=11)"
+    line: "/opt/ohpc/pub *(ro,no_subtree_check,fsid=11)"
+    insertafter: EOF
+
+- name: Export update /etc/exports
+  shell: "exportfs -a"
+
+- name: Restart and enable the NFS service
+  service:
+    name: nfs-server
+    state: restarted
+    enabled: yes
+
+# Enable NTP time service on compute nodes and identify master host as local NTP server
+- name: Enable chrony in chroot
+  shell: "chroot {{ chroot }} systemctl enable ntpd"
+
+- name: Copy chrony.conf template to chroot
+  template:
+    src: chrony.conf.j2
+    dest: "{{ chroot }}/etc/chrony.conf"
