@@ -51,7 +51,7 @@
 
 # Enable NTP time service on compute nodes and identify master host as local NTP server
 - name: Enable chrony in chroot
-  shell: "chroot {{ chroot }} systemctl enable ntpd"
+  shell: "chroot {{ chroot }} systemctl enable chronyd"
 
 - name: Copy chrony.conf template to chroot
   template:
