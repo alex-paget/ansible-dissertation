@@ -1,0 +1,17 @@
+# If your compute resources support InﬁniBand,the following commands add OFED and PSM support using base distro-provided drivers to the compute image
+# Add IB support and enable
+
+- name: Install Infiniband support group in compute image
+  yum:
+    name: "@Infiniband Support"
+    state: present
+    installroot: "{{ chroot }}"
+
+- name: Install infinipath-psm in compute image
+  yum:
+    name: infinipath-psm
+    state: present
+    installroot: "{{ chroot }}"
+
+- name: Enable RDMA in chroot
+  shell: "chroot {{ chroot }} systemctl enable rdma"
