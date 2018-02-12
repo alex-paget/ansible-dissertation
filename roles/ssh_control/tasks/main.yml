@@ -4,6 +4,6 @@
   lineinfile:
     path: "{{ chroot }}/etc/pam.d/sshd"
     state: present
-    regex: "account required pam_slurm.so"
-    line: "account required pam_slurm.so"
+    regexp: "account    required\tpam_slurm.so"
+    line: "account    required\tpam_slurm.so"
     insertafter: EOF
