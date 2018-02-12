@@ -5,15 +5,17 @@
     path: /etc/security/limits.conf
     state: present
     block: |
-       \\* soft memlock unlimited
-       \\* hard memlock unlimited
+       * soft memlock unlimited
+       * hard memlock unlimited
     insertbefore: "# End of file"
+    backup: yes
 
 - name: Update memlock settings in compute image
   blockinfile:
     path: "{{ chroot }}/etc/security/limits.conf"
     state: present
     block: |
-       \\* soft memlock unlimited
-       \\* hard memlock unlimited
+       * soft memlock unlimited
+       * hard memlock unlimited
     insertbefore: "# End of file"
+    backup: yes
