@@ -1,0 +1,17 @@
+# Add base distro-provided drivers for OPA to compute image
+# Add OPA support and enable
+
+- name: Install opa-basic-tools in compute image
+  yum:
+    name: opa-basic-tools
+    state: present
+    installroot: "{{ chroot }}"
+
+- name: Install libpsm2 in compute image
+  yum:
+    name: libpsm2
+    state: present
+    installroot: "{{ chroot }}"
+
+- name: Enable RDMA in chroot
+  shell: "chroot {{ chroot }} systemctl enable rdma"

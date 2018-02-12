@@ -17,4 +17,5 @@
    # - initial_bos_image
    # - ohpc_components
    # - customise_sys_config
-    - infiniband_drivers_comp
+   # - infiniband_drivers_comp
+    - opa_drivers_base_comp
