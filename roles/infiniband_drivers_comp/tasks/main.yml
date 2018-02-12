@@ -1,5 +1,5 @@
-# If your compute resources support InﬁniBand,the following commands add OFED and PSM support using base distro-provided drivers to the compute image
-# Add IB support and enable
+# Add base distro-provided Infiniband drivers to compute image
+# Add IB supp
 
 - name: Install Infiniband support group in compute image
   yum:
