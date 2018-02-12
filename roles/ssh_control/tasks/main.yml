@@ -1,0 +1,1 @@
+# Restrict SSH access on compute nodes, only allowing users with active jobs on node

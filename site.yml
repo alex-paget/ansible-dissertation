@@ -19,4 +19,5 @@
    # - customise_sys_config
    # - infiniband_drivers_comp
    # - opa_drivers_base_comp
-    - mem_limit
+   # - mem_limit
+    - ssh_control
