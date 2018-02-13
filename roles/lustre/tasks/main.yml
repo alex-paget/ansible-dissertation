@@ -6,21 +6,10 @@
     name: lustre-client-ohpc
     state: present
 
-- name: Install lustre-client-ohpc-modules on headnode
-  yum:
-    name: lustre-client-ohpc-modules
-    state: present
-
 # Install Lustre client in compute node image
 - name: Include lustre-client-ohpc software in compute
   yum:
     name: lustre-client-ohpc
-    state: present
-    installroot: "{{ chroot }}"
-
-- name: Install lustre-client-ohpc-modules
-  yum:
-    name: lustre-client-ohpc-modules
     state: present
     installroot: "{{ chroot }}"
 
@@ -46,6 +35,7 @@
     regexp: "options lnet networks\\=o2ib\\(ib0\\)"
     line: "options lnet networks=o2ib(ib0)"
     insertafter: EOF
+    create: yes
 
 - name: Add lnet options to modprobe.d in compute image
   lineinfile:
@@ -54,6 +44,7 @@
     regexp: "options lnet networks\\=o2ib\\(ib0\\)"
     line: "options lnet networks=o2ib(ib0)"
     insertafter: EOF
+    create: yes
 
 # Mount Lustre on headnode
 - name: Create lustre mount point on headnode
@@ -64,7 +55,7 @@
 - name: Mount lustre on headnode
   mount:
     path: "{{ lustre_mnt }}"
-    state: present
+    state: mounted
     src: "{{ mgs_fs_name }}"
     fstype: lustre
     opts: localflock
