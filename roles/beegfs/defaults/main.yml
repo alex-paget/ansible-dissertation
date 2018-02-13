@@ -1,0 +1,4 @@
+# Default chroot location
+chroot: /opt/ohpc/admin/images/centos7.4
+beegfs_repo: https://www.beegfs.io/release/beegfs 6/dists/beegfs-rhel7.repo
+sysmgmtd_host: 192.168.5.254

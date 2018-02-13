@@ -20,4 +20,5 @@
    # - infiniband_drivers_comp
    # - opa_drivers_base_comp
    # - mem_limit
-    - ssh_control
+   # - ssh_control
+    - beegfs

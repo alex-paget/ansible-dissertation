@@ -1,0 +1,116 @@
+# Add support for mounting BeeGFS file systems on the headnode and in the compute image
+
+# Add BeeGFS client software to master host
+- name: Add BeeGFS repo
+  get_url:
+    url: "{{ beegfs_repo }}"
+    dest: /etc/yum.repos.d
+
+- name: Install kernel-devel
+  yum:
+    name: kernel-devel
+    state: present
+
+- name: Install gcc
+  yum:
+    name: gcc
+    state: present
+
+- name: Install beegfs-client
+  yum:
+    name: beegfs-client
+    state: present
+
+- name: Install beegfs-helperd
+  yum:
+    name: beegfs-helperd
+    state: present
+
+- name: Install beegfs-utils
+  yum:
+    name: beegfs-utils
+    state: present
+
+- name: Enable OFED support in client
+  lineinfile:
+    path: /etc/beegfs/beegfs-client-autobuild.conf
+    state: present
+    regexp:  BEEGFS_OPENTK_IBVERBS=1
+    line:  BEEGFS_OPENTK_IBVERBS=1
+    insertafter: buildArgs=-j8
+
+- name: Define client's management host
+  shell: "/opt/beegfs/sbin/beegfs-setup-client -m {{ sysmgmtd_host }}"
+
+- name: Start beegfs-helper daemon
+  service:
+    name: beegfs-helperd
+    state: started
+    enabled: yes
+
+# Build kernel and mount file system
+- name: Start beegfs-client
+  service:
+    name: beegfs-client
+    state: started
+    enabled: yes
+
+# Add BeeGFS client support to compute node image
+- name: Add BeeGFS repo to compute image
+  get_url:
+    url: "{{ beegfs_repo }}"
+    dest: "{{ chroot }}/etc/yum.repos.d"
+
+- name: Install beegfs-client in chroot
+  yum:
+    name: beegfs-client
+    state: present
+    installroot: "{{ chroot }}"
+
+- name: Install beegfs-helperd in chroot
+  yum:
+    name: beegfs-helperd
+    state: present
+    installroot: "{{ chroot }}"
+
+- name: Install beegfs-utils in chroot
+  yum:
+    name: beegfs-utils
+    state: present
+    installroot: "{{ chroot }}"
+
+# Disable autobuild of kernel module in compute node image
+- name: Delete line in beegfs-client-autobuild.conf
+  lineinfile:
+    path: "{{ chroot }}/etc/beegfs/beegfs-client-autobuild.conf"
+    state: absent
+    regexp: "buildEnabled=true/buildEnabled=false"
+    backup: yes
+
+- name: Backup force-auto-build
+  copy:
+    src: "{{ chroot }}/var/lib/beegfs/client/force-auto-build"
+    dest: "{{ chroot }}/var/lib/beegfs/client/force-auto-build.bak"
+    remote_src: yes
+
+- name: Remove force-auto-build
+  file:
+    path: "{{ chroot }}/var/lib/beegfs/client/force-auto-build"
+    state: absent
+
+- name: Enable client daemons in compute image
+  shell: "chroot {{ chroot }} systemctl enable beegfs-helperd beegfs-client"
+
+- name: Copy client config to compute node image
+  copy:
+    src: /etc/beegfs/beegfs-client.conf
+    dest: "{{ chroot }}/etc/beegfs/beegfs-client.conf"
+    remote_src: yes
+
+- name: Include kernel modules in warewulf bootstrap
+  lineinfile:
+    path: /etc/warewulf/bootstrap.conf
+    state: present
+    regexp: "drivers \\+\\= beegfs"
+    line: "drivers += beegfs"
+    insertafter: EOF
