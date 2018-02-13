@@ -1,0 +1,70 @@
+# Add Lustre client support to the headnode and compute image
+
+# Install Lustre client on headnode
+- name: Install lustre-client-ohpc on headnode
+  yum:
+    name: lustre-client-ohpc
+    state: present
+
+- name: Install lustre-client-ohpc-modules on headnode
+  yum:
+    name: lustre-client-ohpc-modules
+    state: present
+
+# Install Lustre client in compute node image
+- name: Include lustre-client-ohpc software in compute
+  yum:
+    name: lustre-client-ohpc
+    state: present
+    installroot: "{{ chroot }}"
+
+- name: Install lustre-client-ohpc-modules
+  yum:
+    name: lustre-client-ohpc-modules
+    state: present
+    installroot: "{{ chroot }}"
+
+# Include mount point and file system mount in compute image
+- name: Create lustre directory for mounting in compute nodes
+  file:
+    path: "{{ chroot }}{{ lustre_mnt }}"
+    state: directory
+
+- name: Add lustre mount point to fstab
+  lineinfile:
+    path: "{{ chroot }}/etc/fstab"
+    state: present
+    regexp: "{{ mgs_fs_name }} {{ lustre_mnt }} lustre defaults,_netdev,localflock,retry\\=2 0 0"
+    line: "{{ mgs_fs_name }} {{ lustre_mnt }} lustre defaults,_netdev,localflock,retry=2 0 0"
+    insertafter: EOF
+
+# Set Lustre to use o2ib0
+- name: Add lnet options to modprobe.d in headnode
+  lineinfile:
+    path: /etc/modprobe.d/lustre.conf
+    state: present
+    regexp: "options lnet networks\\=o2ib\\(ib0\\)"
+    line: "options lnet networks=o2ib(ib0)"
+    insertafter: EOF
+
+- name: Add lnet options to modprobe.d in compute image
+  lineinfile:
+    path: "{{ chroot }}/etc/modprobe.d/lustre.conf"
+    state: present
+    regexp: "options lnet networks\\=o2ib\\(ib0\\)"
+    line: "options lnet networks=o2ib(ib0)"
+    insertafter: EOF
+
+# Mount Lustre on headnode
+- name: Create lustre mount point on headnode
+  file:
+    path: "{{ lustre_mnt }}"
+    state: directory
+
+- name: Mount lustre on headnode
+  mount:
+    path: "{{ lustre_mnt }}"
+    state: present
+    src: "{{ mgs_fs_name }}"
+    fstype: lustre
+    opts: localflock

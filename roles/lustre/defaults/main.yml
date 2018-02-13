@@ -1,0 +1,6 @@
+# Default chroot location
+chroot: /opt/ohpc/admin/images/centos7.4
+# Lustre mount point
+lustre_mnt: /mnt/lustre
+# Lustre remote file system IP
+mgs_fs_name: 192.168.5.254:/mnt/lustre/

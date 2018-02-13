@@ -21,4 +21,5 @@
    # - opa_drivers_base_comp
    # - mem_limit
    # - ssh_control
-    - beegfs
+   # - beegfs
+    - lustre
