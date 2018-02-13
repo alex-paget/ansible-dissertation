@@ -54,6 +54,7 @@
     name: beegfs-client
     state: started
     enabled: yes
+  ignore_errors: yes
 
 # Add BeeGFS client support to compute node image
 - name: Add BeeGFS repo to compute image
@@ -86,12 +87,6 @@
     state: absent
     regexp: "buildEnabled=true/buildEnabled=false"
     backup: yes
-
-- name: Backup force-auto-build
-  copy:
-    src: "{{ chroot }}/var/lib/beegfs/client/force-auto-build"
-    dest: "{{ chroot }}/var/lib/beegfs/client/force-auto-build.bak"
-    remote_src: yes
 
 - name: Remove force-auto-build
   file:
