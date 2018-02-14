@@ -1,0 +1,4 @@
+# Default chroot location
+chroot: /opt/ohpc/admin/images/centos7.4
+# Default SMS IP
+sms_ip: 192.168.0.1

@@ -22,4 +22,5 @@
    # - mem_limit
    # - ssh_control
    # - beegfs
-    - lustre
+   # - lustre
+    - forward_logs

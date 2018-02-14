@@ -1,0 +1,60 @@
+# Enable forwarding of system logs from compute nodes to the headnode
+
+# Configure SMS to recieve messages and reload rsyslog config
+- name: Uncomment ModLoad in /etc/rsyslog.conf
+  replace:
+    path: /etc/rsyslog.conf
+    regexp: |
+      "\\#\\$ModLoad imudp
+      \\#\\$UDPServerRun 514"
+    replace: |
+      "$ModLoad imudp
+      $UDPServerRun 514"
+    backup: yes
+
+- name: Restart rsyslog
+  service:
+    name: rsyslog
+    state: restarted
+    enabled: yes
+
+- name: Define compute node forwarding destination
+  lineinfile:
+    path: "{{ chroot }}/etc/rsyslog.conf"
+    state: present
+    regexp: "\\*\\.\\* \\@{{ sms_ip }}\\:514"
+    line: "*.* @{{ sms_ip }}:514"
+    insertafter: EOF
+
+# Disable most local logging on compute nodes
+# Emergency and boot logs will remain on compute nodes
+- name: Comment out .info in compute node image
+  replace:
+    path: "{{ chroot }}/etc/rsyslog.conf"
+    regexp: "\\*\\.info"
+    replace: "#*.info"
+    backup: yes
+
+- name: Comment out authpriv
+  replace:
+    path: "{{ chroot }}/etc/rsyslog.conf"
+    regexp: "authpriv\\.\\*"
+    replace: "#authpriv.*"
+
+- name: Comment out mail
+  replace:
+    path: "{{ chroot }}/etc/rsyslog.conf"
+    regexp: "mail\\.\\*"
+    replace: "#mail.*"
+
+- name: Comment out cron
+  replace:
+    path: "{{ chroot }}/etc/rsyslog.conf"
+    regexp: "cron\\.\\*"
+    replace: "#cron.*"
+
+- name: Comment out uucp
+  replace:
+    path: "{{ chroot }}/etc/rsyslog.conf"
+    regexp: "uucp"
+    replace: "#uucp"
