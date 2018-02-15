@@ -53,11 +53,23 @@
     line: "nrpe : ALL : DENY"
     insertafter:  EOF
 
+- name: Check if the nrpe group already exists
+  shell: "grep nrpe {{ chroot }}/etc/group"
+  register: group_output
+  ignore_errors: yes
+
 - name: Add NRPE group to chroot
-  shell: "chroot {{ chroot }} /usr/sbin/groupadd -r nrpe"
+  shell: "chroot {{ chroot }}/usr/sbin/groupadd -r nrpe"
+  when: group_output.stdout != ""
+
+- name: Check if nrpe user exists
+  shell: "grep nrpe {{ chroot }}/etc/passwd"
+  register: user_output
+  ignore_errors: yes
 
 - name: Add NRPE user to chroot
   shell: "chroot {{ chroot }} /usr/sbin/useradd -c \"NRPE user for the NRPE service\" - d /var/run/nrpe -r - g nrpe -s /sbin/nologin nrpe"
+  when: user_output.stdout != ""
 
 - name: Configure remote services to test on compute nodes
   copy:
@@ -74,16 +86,24 @@
 
 # Remove template features
 - name: Remove template host configurations from /etc/nagios/conf.d/hosts.cfg
-  blockinfile:
+  lineinfile:
     path: /etc/nagios/conf.d/hosts.cfg
     state: absent
-    block: |
-      "define host{
-          use linux-box    ; Inherit default values from a template
-          host_name HOSTNAME{{ item }}    ; The name we're giving to this server
-          alias HOSTNAME{{ item }}        ; A longer name for the server
-          address HOST{{ item }}_IP   ; IP address of Remote Linux host
-      }"
+    regexp: |
+      define host\\{
+              use linux-box      \\; Inherit default values from a template
+              host_name HOSTNAME{{ item }}    \\; The name we're giving to this server
+              alias HOSTNAME{{ item }}        \\; A longer name for the server
+              address HOST{{ item }}_IP   \\; IP address of Remote Linux host
+      \\}
+    line: |
+      define host{
+              use linux-box      ; Inherit default values from a template
+              host_name HOSTNAME{{ item }}    ; The name we're giving to this server
+              alias HOSTNAME{{ item }}        ; A longer name for the server
+              address HOST{{ item }}_IP   ; IP address of Remote Linux host
+      }
+    insertafter: EOF
   with_sequence:
     start=1
     end=4
@@ -99,13 +119,14 @@
   blockinfile:
     path: /etc/nagios/conf.d/hosts.cfg
     state: present
+    marker: ""
     block: |
-      "define host{
-          use linux-box    ; Inherit default values from a template
-          host_name {{ c_name }}{{ item }}    ; The name we're giving to this server
-          alias {{ c_name }}{{ item }}        ; A longer name for the server
-          address {{ c_ip }}{{ c_ip_last | int + {{ item | int }}}}   ; IP address of Remote Linux host
-      }"
+      define host{
+              use linux-box    ; Inherit default values from a template
+              host_name {{ c_name }}{{ item }}    ; The name we're giving to this server
+              alias {{ c_name }}{{ item }}        ; A longer name for the server
+              address {{ c_ip }} ; IP address of Remote Linux host
+      }
   with_sequence:
     start=0
     end="{{ num_computes }}"
@@ -114,8 +135,8 @@
   set_fact:
     members_list: "{{ members_list}} + [ '{{ c_name + item }}' ]"
   with_sequence:
-    start: 0
-    end: "{{ num_computes }}"
+    start=0
+    end="{{ num_computes }}"
 
 - name: Add hosts to members line in /etc/nagios/conf.d/hosts.cfg
   replace:
@@ -144,6 +165,11 @@
     regexp: "command\\[check_ssh\\]\\=\\/usr\\/lib64\\/nagios\\/plugins\\/check_ssh localhost"
     line: "command[check_ssh]=/usr/lib64/nagios/plugins/check_ssh localhost"
     insertafter: EOF
+
+- name: Install passlib on remote node
+  yum: 
+    name: python-passlib
+    state: present
 
 - name: Define password for nagiosadmin on web interface
   htpasswd:
