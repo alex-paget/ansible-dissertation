@@ -10,3 +10,5 @@ c_name: compute
 c_ip: 192.168.0.
 # Last Octet of compute IP to start from
 c_ip_last: 2
+# Default nagios web admin password
+nagios_web_password: NagiosPassword2018

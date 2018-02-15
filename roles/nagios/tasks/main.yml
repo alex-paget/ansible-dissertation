@@ -136,3 +136,32 @@
    regexp: "nagios\\@localhost"
    replace: "root@{{ sms_name }}"
    backup: yes
+
+- name: Add check_ssh command for remote hosts
+  lineinfile:
+    path: "{{ chroot }}/etc/nagios/nrpe.cfg"
+    state: present
+    regexp: "command\\[check_ssh\\]\\=\\/usr\\/lib64\\/nagios\\/plugins\\/check_ssh localhost"
+    line: "command[check_ssh]=/usr/lib64/nagios/plugins/check_ssh localhost"
+    insertafter: EOF
+
+- name: Define password for nagiosadmin on web interface
+  htpasswd:
+    path: /etc/nagios/passwd
+    state: present
+    create: yes
+    name: nagiosadmin
+    password: "{{ nagios_web_password }}"
+
+# Enable Nagios on master, and configure
+- name: Enable nagios
+  service:
+    name: nagios
+    enabled: yes
+    state: restarted
+
+- name: chmod which ping
+  file:
+    path: `which ping`
+    state: touch
+    mode: "u+s" 
