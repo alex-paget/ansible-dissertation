@@ -54,7 +54,7 @@
     insertafter:  EOF
 
 - name: Add NRPE user to chroot
-  shell: "chroot {{ chroot }} /usr/sbin/useradd -c \\"NRPE user for the NRPE service\\" - d /var/run/nrpe -r - g nrpe -s /sbin/nologin nrpe"
+  shell: "chroot {{ chroot }} /usr/sbin/useradd -c \"NRPE user for the NRPE service\" - d /var/run/nrpe -r - g nrpe -s /sbin/nologin nrpe"
 
 - name: Add NRPE group to chroot
   shell: "chroot {{ chroot }} /usr/sbin/groupadd -r nrpe"
@@ -74,7 +74,7 @@
 
 # Remove template features
 - name: Remove template host configurations from /etc/nagios/conf.d/hosts.cfg
-  block:
+  blockinfile:
     path: /etc/nagios/conf.d/hosts.cfg
     state: absent
     block: |
@@ -84,9 +84,10 @@
           alias HOSTNAME{{ item }}        ; A longer name for the server
           address HOST{{ item }}_IP   ; IP address of Remote Linux host
       }"
-    with_sequence:
-      start=1
-      end=4
+  with_sequence:
+    start=1
+    end=4
+
 - name: Remove template hostgroup configuration from /etc/nagios/conf.d/hosts.cfg
   replace:
     path: /etc/nagios/conf.d/hosts.cfg
@@ -105,9 +106,9 @@
           alias {{ c_name }}{{ item }}        ; A longer name for the server
           address {{ c_ip }}{{ c_ip_last | int + {{ item | int }}}}   ; IP address of Remote Linux host
       }"
-    with_sequence:
-      start=0
-      end="{{ num_computes }}"
+  with_sequence:
+    start=0
+    end="{{ num_computes }}"
 
 - name: Create list of members
   set_fact:
@@ -130,7 +131,7 @@
     backup: yes
 
 - name: Update email address of contact for alerts
- replace:
+  replace:
    path: /etc/nagios/objects/contacts.cfg
    regexp: "nagios\\@localhost"
    replace: "root@{{ sms_name }}"
