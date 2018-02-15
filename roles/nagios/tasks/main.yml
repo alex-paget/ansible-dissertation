@@ -162,6 +162,6 @@
 
 - name: chmod which ping
   file:
-    path: `which ping`
+    path: /bin/ping 
     state: touch
     mode: "u+s" 
