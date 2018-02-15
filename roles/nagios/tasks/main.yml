@@ -88,6 +88,7 @@
     path: /etc/nagios/conf.d/hosts.cfg
     state: present
     marker: ""
+    insertafter: EOF
     block: |
       define host{
               use linux-box    ; Inherit default values from a template
