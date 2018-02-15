@@ -94,18 +94,18 @@
               use linux-box    ; Inherit default values from a template
               host_name {{ c_name }}{{ item }}    ; The name we're giving to this server
               alias {{ c_name }}{{ item }}        ; A longer name for the server
-              address {{ c_ip }} ; IP address of Remote Linux host
+              address {{ c_ip }}{{ c_ip_last | int + item }} ; IP address of Remote Linux host
       }
   with_sequence:
     start=0
-    end="{{ num_computes }}"
+    end="{{ num_computes | int - 1}}"
 
 - name: Create list of members
   set_fact:
     members_list: "{{ members_list}} + [ '{{ c_name + item }}' ]"
   with_sequence:
     start=0
-    end="{{ num_computes }}"
+    end="{{ num_computes | int - 1}}"
 
 - name: Add hosts to members line in /etc/nagios/conf.d/hosts.cfg
   replace:
