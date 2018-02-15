@@ -82,6 +82,17 @@
     src: hosts.cfg.j2
     dest: /etc/nagios/conf.d/hosts.cfg
 
+- name: Add hosts to members line in /etc/nagios/conf.d/hosts.cfg
+  lineinfile:
+    path: /etc/nagios/conf.d/hosts.cfg
+    state: present
+    regexp: "{{ c_name }}{{ item }}"
+    line: "{{ c_name }}{{ item }}"
+    insertafter: members
+  with_sequence:
+    start=0
+    end="{{ num_computes|int - 1}}"
+
 # Populate nagios hosts with actual members
 - name: Add hosts to /etc/nagios/conf.d/hosts.cfg
   blockinfile:
@@ -99,19 +110,6 @@
   with_sequence:
     start=0
     end="{{ num_computes | int - 1}}"
-
-- name: Create list of members
-  set_fact:
-    members_list: "{{ members_list}} + [ '{{ c_name + item }}' ]"
-  with_sequence:
-    start=0
-    end="{{ num_computes | int - 1}}"
-
-- name: Add hosts to members line in /etc/nagios/conf.d/hosts.cfg
-  replace:
-    path: /etc/nagios/conf.d/hosts.cfg
-    regexp: "members\\(\\.\\*\\)"
-    replace: "members {{ members_list }}"
 
 - name: Update location of mail binary for alert commands
   replace:

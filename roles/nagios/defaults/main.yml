@@ -12,5 +12,3 @@ c_ip: 192.168.0.
 c_ip_last: 2
 # Default nagios web admin password
 nagios_web_password: NagiosPassword2018
-# Create members variable
-members_list: ""
