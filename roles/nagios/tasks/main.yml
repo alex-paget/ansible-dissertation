@@ -1,0 +1,137 @@
+# Enable Nagios monitoring on the headnode to monitor compute nodes
+
+- name: Intall Nagios meta-package on headnode
+  yum:
+    name: ohpc-nagios
+    state: present
+
+# Install nagios plugins in compute image
+- name: Install nagios-plugins-all-ohpc in compute node image
+  yum:
+    name: nagios-plugins-all-ohpc
+    state: present
+    installroot: "{{ chroot }}"
+
+- name: Install nrpe-ohpc in compute image
+  yum:
+    name: nrpe-ohpc
+    state: present
+    installroot: "{{ chroot }}"
+
+# Enable and configure NRPE in compute image
+- name: Enable nrpe in chroot
+  shell: "chroot {{ chroot}} systemctl enable nrpe"
+
+- name: Comment out allowed_hosts in /etc/nagios/nrpe.cfg in chroot
+  replace:
+    path: "{{ chroot }}/etc/nagios/nrpe.cfg"
+    regexp: "^allowed_hosts="
+    replace: "# allowed_hosts="
+    backup: yes
+
+- name: Add nrpe port to chroot services
+  lineinfile:
+    path: "{{ chroot }}/etc/services"
+    state: present
+    regexp: "nrpe\t\t5666\\/tcp\t\t\\# NRPE"
+    line: "nrpe\t\t5666/tcp\t\t# NRPE"
+    insertafter: EOF
+
+- name: Add SMS IP to hosts.allow
+  lineinfile:
+    path: "{{ chroot }}/etc/hosts.allow"
+    state: present
+    regexp: "nrpe \\: {{ sms_ip }} \\: ALLOW"
+    line: "nrpe : {{ sms_ip }} : ALLOW"
+    insertafter: EOF
+
+- name: Allow NRPE in hosts.allow
+  lineinfile:
+    path: "{{ chroot }}/etc/hosts.allow"
+    state: present
+    regexp: "nrpe \\: ALL \\: DENY"
+    line: "nrpe : ALL : DENY"
+    insertafter:  EOF
+
+- name: Add NRPE user to chroot
+  shell: "chroot {{ chroot }} /usr/sbin/useradd -c \\"NRPE user for the NRPE service\\" - d /var/run/nrpe -r - g nrpe -s /sbin/nologin nrpe"
+
+- name: Add NRPE group to chroot
+  shell: "chroot {{ chroot }} /usr/sbin/groupadd -r nrpe"
+
+- name: Configure remote services to test on compute nodes
+  copy:
+    src: /etc/nagios/conf.d/services.cfg.example
+    dest: /etc/nagios/conf.d/services.cfg
+    remote_src: yes
+
+# Define compute nodes as hosts to monitor
+- name: Copy example hosts.cfg to /etc/nagios/conf.d
+  copy:
+    src: /etc/nagios/conf.d/hosts.cfg.example
+    dest: /etc/nagios/conf.d/hosts.cfg
+    remote_src: yes
+
+# Remove template features
+- name: Remove template host configurations from /etc/nagios/conf.d/hosts.cfg
+  block:
+    path: /etc/nagios/conf.d/hosts.cfg
+    state: absent
+    block: |
+      "define host{
+          use linux-box    ; Inherit default values from a template
+          host_name HOSTNAME{{ item }}    ; The name we're giving to this server
+          alias HOSTNAME{{ item }}        ; A longer name for the server
+          address HOST{{ item }}_IP   ; IP address of Remote Linux host
+      }"
+    with_sequence:
+      start=1
+      end=4
+- name: Remove template hostgroup configuration from /etc/nagios/conf.d/hosts.cfg
+  replace:
+    path: /etc/nagios/conf.d/hosts.cfg
+    regexp: "members HOSTNAME1,HOSTNAME2,HOSTNAME3,HOSTNAME4"
+    replace: "members"
+
+# Populate nagios hosts with actual members
+- name: Add hosts to /etc/nagios/conf.d/hosts.cfg
+  blockinfile:
+    path: /etc/nagios/conf.d/hosts.cfg
+    state: present
+    block: |
+      "define host{
+          use linux-box    ; Inherit default values from a template
+          host_name {{ c_name }}{{ item }}    ; The name we're giving to this server
+          alias {{ c_name }}{{ item }}        ; A longer name for the server
+          address {{ c_ip }}{{ c_ip_last | int + {{ item | int }}}}   ; IP address of Remote Linux host
+      }"
+    with_sequence:
+      start=0
+      end="{{ num_computes }}"
+
+- name: Create list of members
+  set_fact:
+    members_list: "{{ members_list}} + [ '{{ c_name + item }}' ]"
+  with_sequence:
+    start: 0
+    end: "{{ num_computes }}"
+
+- name: Add hosts to members line in /etc/nagios/conf.d/hosts.cfg
+  replace:
+    path: /etc/nagios/conf.d/hosts.cfg
+    regexp: "members\\(\\.\\*\\)"
+    replace: "members {{ members_list }}"
+
+- name: Update location of mail binary for alert commands
+  replace:
+    path: /etc/nagios/objects/commands.cfg
+    regexp: "\\| \\/usr\\/bin\\/mail"
+    replace: "/usr/bin/mailx"
+    backup: yes
+
+- name: Update email address of contact for alerts
+ replace:
+   path: /etc/nagios/objects/contacts.cfg
+   regexp: "nagios\\@localhost"
+   replace: "root@{{ sms_name }}"
+   backup: yes

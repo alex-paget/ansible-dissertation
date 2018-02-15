@@ -23,4 +23,5 @@
    # - ssh_control
    # - beegfs
    # - lustre
-    - forward_logs
+   # - forward_logs
+    - nagios
