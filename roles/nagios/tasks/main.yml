@@ -77,42 +77,10 @@
     dest: /etc/nagios/conf.d/services.cfg
     remote_src: yes
 
-# Define compute nodes as hosts to monitor
-- name: Copy example hosts.cfg to /etc/nagios/conf.d
-  copy:
-    src: /etc/nagios/conf.d/hosts.cfg.example
+- name: Copy template hosts.cfg
+  template:
+    src: hosts.cfg.j2
     dest: /etc/nagios/conf.d/hosts.cfg
-    remote_src: yes
-
-# Remove template features
-- name: Remove template host configurations from /etc/nagios/conf.d/hosts.cfg
-  lineinfile:
-    path: /etc/nagios/conf.d/hosts.cfg
-    state: absent
-    regexp: |
-      define host\\{
-              use linux-box      \\; Inherit default values from a template
-              host_name HOSTNAME{{ item }}    \\; The name we're giving to this server
-              alias HOSTNAME{{ item }}        \\; A longer name for the server
-              address HOST{{ item }}_IP   \\; IP address of Remote Linux host
-      \\}
-    line: |
-      define host{
-              use linux-box      ; Inherit default values from a template
-              host_name HOSTNAME{{ item }}    ; The name we're giving to this server
-              alias HOSTNAME{{ item }}        ; A longer name for the server
-              address HOST{{ item }}_IP   ; IP address of Remote Linux host
-      }
-    insertafter: EOF
-  with_sequence:
-    start=1
-    end=4
-
-- name: Remove template hostgroup configuration from /etc/nagios/conf.d/hosts.cfg
-  replace:
-    path: /etc/nagios/conf.d/hosts.cfg
-    regexp: "members HOSTNAME1,HOSTNAME2,HOSTNAME3,HOSTNAME4"
-    replace: "members"
 
 # Populate nagios hosts with actual members
 - name: Add hosts to /etc/nagios/conf.d/hosts.cfg
@@ -167,7 +135,7 @@
     insertafter: EOF
 
 - name: Install passlib on remote node
-  yum: 
+  yum:
     name: python-passlib
     state: present
 
