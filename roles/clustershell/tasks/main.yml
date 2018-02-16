@@ -1,0 +1,11 @@
+# Add CluserShell to cluster
+
+- name: Install clustershell on headnode
+  yum:
+    name: clustershell-ohpc
+    state: present
+
+- name: Copy template to /etc/clustershell/groups.d/
+  template:
+    src: local.cfg.j2
+    dest: /etc/clustershell/groups.d/local.cfg

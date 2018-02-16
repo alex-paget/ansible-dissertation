@@ -1,0 +1,4 @@
+# Template local.cfg
+adm: {{ sms_name }}
+compute: {{ c_name }}[0-{{ num_computes|int - 1}}]
+all: @adm,compute

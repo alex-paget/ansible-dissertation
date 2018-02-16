@@ -25,4 +25,5 @@
    # - lustre
    # - forward_logs
    # - nagios (This is broken)
-    - ganglia
+   # - ganglia
+    - clustershell
