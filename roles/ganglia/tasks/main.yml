@@ -24,7 +24,7 @@
 
 - name: Provide gridname to chroot gmond.conf
   lineinfile:
-    path: "{{ chroot }}/etc/ganglia/gmod.conf"
+    path: "{{ chroot }}/etc/ganglia/gmond.conf"
     state: present
     regexp: "gridname MySite"
     line: "gridname MySite"
@@ -46,7 +46,7 @@
 - name: Enable gmond in chroot
   shell: "chroot {{ chroot }} systemctl enable gmond"
 
-- name: Restard Web server
+- name: Restart Web server
   service:
     name: httpd
     state: restarted
