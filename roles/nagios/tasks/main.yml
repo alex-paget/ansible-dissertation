@@ -82,11 +82,14 @@
     src: hosts.cfg.j2
     dest: /etc/nagios/conf.d/hosts.cfg
 
+- name: Populate
+
 - name: Add hosts to members line in /etc/nagios/conf.d/hosts.cfg
   lineinfile:
     path: /etc/nagios/conf.d/hosts.cfg
     state: present
-    regexp: "{{ c_name }}{{ item }}"
+    backrefs: yes
+    regexp: "members {{ c_name }}{{ item }}"
     line: "{{ c_name }}{{ item }}"
     insertafter: members
   with_sequence:
