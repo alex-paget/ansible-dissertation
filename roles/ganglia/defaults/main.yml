@@ -1,0 +1,4 @@
+# Default chroot location
+chroot: /opt/ohpc/admin/images/centos7.4
+# Default SMS name
+sms_name: "{{ ansible_hostname }}"

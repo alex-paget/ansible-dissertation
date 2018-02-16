@@ -24,4 +24,5 @@
    # - beegfs
    # - lustre
    # - forward_logs
-    - nagios
+   # - nagios (This is broken)
+    - ganglia

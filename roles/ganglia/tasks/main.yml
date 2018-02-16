@@ -1,0 +1,52 @@
+# Add Ganglia monitoring to the cluster
+
+- name: Install Ganglia meta-package on master
+  yum:
+    name: ohpc-ganglia
+    state: present
+
+- name: Install Ganglia compute node daemon
+  yum:
+    name: ganglia-gmond-ohpc
+    state: present
+    installroot: "{{ chroot }}"
+
+- name: Copy the ganglia template to the headnode
+  template:
+    src: gmond.conf.j2
+    dest: /etc/ganglia/gmond.conf
+
+- name: Add configuration to compute nodes
+  copy:
+    src: /etc/ganglia/gmond.conf
+    dest: "{{ chroot }}/etc/ganglia/gmond.conf"
+    remote_src: yes
+
+- name: Provide gridname to chroot gmond.conf
+  lineinfile:
+    path: "{{ chroot }}/etc/ganglia/gmod.conf"
+    state: present
+    regexp: "gridname MySite"
+    line: "gridname MySite"
+    insertafter: EOF
+
+# Start and enable Ganglia services
+- name: Start and enable gmond
+  service:
+    name: gmond
+    state: restarted
+    enabled: yes
+
+- name: Start and enable gmetad
+  service:
+    name: gmetad
+    state: restarted
+    enabled: yes
+
+- name: Enable gmond in chroot
+  shell: "chroot {{ chroot }} systemctl enable gmond"
+
+- name: Restard Web server
+  service:
+    name: httpd
+    state: restarted
