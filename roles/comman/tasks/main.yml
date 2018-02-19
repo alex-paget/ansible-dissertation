@@ -14,6 +14,9 @@
       "'CONSOLE name=\\"'{{ c_name }}{{ item }}'\\" dev=\\"ipmi:'{{ bmc_host }}{{ bmc_ip }}'\\" '
       'ipmiopts=\\"'U:{{ bmc_username }},P:{{ bmc_password }},W:solpayloadsize'\\"'\\""
     insertafter: EOF
+    with_sequence:
+      start=0
+      end="{{ num_computes|int - 1}}"
 
 - name: Start and enable ConMan
   service:
