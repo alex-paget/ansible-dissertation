@@ -1,0 +1,7 @@
+# Import files for IPoIB interfaces
+
+- name: Import example ifcfg-ib0
+  shell: "wwsh file import /opt/ohpc/pub/examples/network/centos/ifcfg-ib0.ww"
+
+- name: Set the example ifcfg-ib0
+  shell: "wwsh -y file set ifcfg-ib0.ww --path=/etc/sysconfig/network-scripts/ifcfg-ib0"

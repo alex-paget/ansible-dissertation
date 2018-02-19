@@ -1,0 +1,17 @@
+# Import files from headnode for distributing user credentials
+
+- name: Import passwd from headnode
+  shell: "wwsh file import /etc/passwd"
+
+- name: Import group from headnode
+  shell: "wwsh file import /etc/group"
+
+- name: Import shadow from headnode
+  shell: "wwsh file import /etc/shadow"
+
+# Import files for Slurm and Munge
+- name: Import slurm.conf
+  shell: "wwsh file import /etc/slurm.conf"
+
+- name: Import munge.key
+  shell: "wwsh file import /etc/munge/munge.key"
