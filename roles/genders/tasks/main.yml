@@ -1,0 +1,27 @@
+# Add genders to cluster
+
+- name: Install gender-ohpc
+  yum:
+    name: genders-ohpc
+    state: present
+
+# Generate genders file
+- name: Add headnode name to genders config
+  lineinfile:
+    path: /etc/genders
+    state: present
+    create: yes
+    regexp: "{{ sms_name }}\\\tsms"
+    line: "{{ sms_name }}\tsms"
+    insertbefore: BOF
+
+- name: Add compute BMC addresses to genders config
+  lineinfile:
+    path: /etc/genders
+    state: present
+    regexp: "{{ c_name }}{{ item }}\\\tcompute,bmc={{ bmc_host }}{{ bmc_ip|int + item|int}}"
+    line: "{{ c_name }}{{ item }}\tcompute,bmc={{ bmc_host }}{{ bmc_ip|int + item|int}}"
+    insertafter: EOF
+  with_sequence:
+    start=0
+    end="{{ num_computes|int - 1}}"

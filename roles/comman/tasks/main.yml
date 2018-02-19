@@ -1,0 +1,22 @@
+# Add ConMan to the cluster
+
+- name: Install ConMan in headnode
+  yum:
+    name: conman-ohpc
+    state: present
+
+- name: Configure ConMan for compute nodes
+  blockinfile:
+    path: /etc/conman.conf
+    state: present
+    create: yes
+    block: |
+      "'CONSOLE name=\\"'{{ c_name }}{{ item }}'\\" dev=\\"ipmi:'{{ bmc_host }}{{ bmc_ip }}'\\" '
+      'ipmiopts=\\"'U:{{ bmc_username }},P:{{ bmc_password }},W:solpayloadsize'\\"'\\""
+    insertafter: EOF
+
+- name: Start and enable ConMan
+  service:
+    name: conman
+    state: restarted
+    enabled: yes

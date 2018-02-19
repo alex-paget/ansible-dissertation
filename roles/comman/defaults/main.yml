@@ -1,0 +1,14 @@
+# Default chroot location
+chroot: /opt/ohpc/admin/images/centos7.4
+# Default number of compute nodes
+num_computes: 4
+# Default Compute Nodes hostname
+c_name: compute
+# Default BMC host range
+bmc_host: 194.168.0.
+# Default BMC starting IP
+bmc_ip: 2
+# Default BMC username
+bmc_username: adminuser
+# Default BMC password
+bmc_password: adminpassword
