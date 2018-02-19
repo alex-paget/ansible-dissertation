@@ -28,4 +28,5 @@
    # - ganglia
    # - clustershell
    # - mrsh
-    - genders
+   # - genders
+    - conman
