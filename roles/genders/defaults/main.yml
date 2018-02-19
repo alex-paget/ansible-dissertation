@@ -1,7 +1,7 @@
 # Default chroot location
 chroot: /opt/ohpc/admin/images/centos7.4
 # Default SMS name
-sms_name: {{ ansible_hostname }}
+sms_name: "{{ ansible_hostname }}"
 # Default number of compute nodes
 num_computes: 4
 # Default Compute Nodes hostname
