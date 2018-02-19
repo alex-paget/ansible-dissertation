@@ -11,7 +11,7 @@
 
 # Import files for Slurm and Munge
 - name: Import slurm.conf
-  shell: "wwsh file import /etc/slurm.conf"
+  shell: "wwsh file import /etc/slurm/slurm.conf"
 
 - name: Import munge.key
   shell: "wwsh file import /etc/munge/munge.key"
