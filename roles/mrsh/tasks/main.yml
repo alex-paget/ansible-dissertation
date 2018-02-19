@@ -1,0 +1,39 @@
+# Add mrsh to the cluster
+
+# Install mrsh
+- name: Install headnode components
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - mrsh-ohpc
+    - mrsh-rsh-compat-ohpc
+
+- name: Install compute components
+  yum:
+    name: "{{ item }}"
+    state: present
+    installroot: "{{ chroot }}"
+  with_items:
+      - mrsh-ohpc
+      - mrsh-rsh-compat-ohpc
+      - mrsh-server-ohpc
+
+- name: Identify mshell in services file
+  lineinfile:
+    path: /etc/services
+    state: present
+    regexp: "mshell\\\t\\\t21212/tcp\\\t\\\t\\# mrshd"
+    line: "mshell\t\t21212/tcp\t\t# mrshd"
+    insertafter: EOF
+
+- name: Identify mlogin in services file
+  lineinfile:
+    path: /etc/services
+    state: present
+    regexp: "mlogin\\\t\\\t515/tcp\\\t\\\t\\\t\\# mrlogind"
+    line: "mlogin\t\t515/tcp\t\t\t# mrlogind"
+    insertafter: EOF
+
+- name: Enable xinetd in compute image
+  shell: "chroot {{ chroot }} systemctl enable xinetd"

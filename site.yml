@@ -26,4 +26,5 @@
    # - forward_logs
    # - nagios (This is broken)
    # - ganglia
-    - clustershell
+   # - clustershell
+    - mrsh
