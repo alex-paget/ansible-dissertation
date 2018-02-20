@@ -1,0 +1,10 @@
+# Define IPoIB network settings for compute nodes
+
+- name: Define IPoIB for each compute node
+  shell: "wwsh -y provision set {{ c_name }}{{ item }} -D ib0 --ipaddr={{ c_ipoib }}{{ c_ipoib_last|int + item|int }} --netmask={{ ipoib_netmask }}"
+  with_sequence:
+    start=0
+    end="{{ num_computes|int - 1}}"
+
+- name: Set the ifcfg-ib0 file for all compute nodes
+  shell: "wwsh -y provision set \"{{ c_name }}*\" --fileadd=ifcfg-ib0.ww"

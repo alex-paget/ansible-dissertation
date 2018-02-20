@@ -1,0 +1,8 @@
+# Compute Nodes hostname
+c_name: compute
+# Compute Node IPoIB network
+c_ipoib: 192.168.5.
+# Last Octet of compute IPoIB to start from
+c_ipoib_last: 2
+# Default IPoIB Netmask
+ipoib_netmask: 255.255.255.0

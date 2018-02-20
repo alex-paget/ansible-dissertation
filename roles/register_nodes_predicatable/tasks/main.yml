@@ -1,0 +1,7 @@
+# Additional step for predictable network interface names
+
+- name: Set ifnames and biosdevname to 1
+  shell: "wwsh provision set \"{{ c_name }}*\" --kargs \"net.ifnames=1,biosdevname=1\""
+
+- name: Set postnetdown to 1
+  shell: "wwsh provision set --postnetdown=1 \"{{ c_name }}*\""
