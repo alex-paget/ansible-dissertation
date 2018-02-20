@@ -4,5 +4,5 @@
   lineinfile:
     path: /etc/warewulf/bootstrap.conf
     state: present
-    regexp: "drivers += overlay"
+    regexp: "drivers \\+= overlay"
     line: "drivers += overlay"

@@ -5,5 +5,5 @@
   lineinfile:
     path: /etc/warewulf/bootstrap.conf
     state: present
-    regexp: "drivers += updates\\/kernel\\/"
+    regexp: "drivers \\+= updates\\/kernel\\/"
     line: "drivers += updates/kernel/"
