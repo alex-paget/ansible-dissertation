@@ -32,6 +32,7 @@
    # - conman
    # - import_files_core
    # - import_files_ib
-    - bootstrap_updates
-    - bootstrap_singularity
-    - bootstrap_core
+   # - bootstrap_updates
+   # - bootstrap_singularity
+   # - bootstrap_core
+    - vnfs

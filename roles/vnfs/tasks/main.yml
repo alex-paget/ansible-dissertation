@@ -1,0 +1,4 @@
+# Assemble the VNFS image for the compute nodes
+
+- name: Assemble the VNFS
+  shell: "wwvnfs --chroot {{ chroot }}"
