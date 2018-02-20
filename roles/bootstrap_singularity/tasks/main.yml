@@ -1,0 +1,8 @@
+# Optionally, inlcude drivers for overlayfs. Needed for Singularity
+
+- name: Write to Warewulf bootstrap
+  lineinfile:
+    path: /etc/warewulf/bootstrap.conf
+    state: present
+    regexp: "drivers += overlay"
+    line: "drivers += overlay"

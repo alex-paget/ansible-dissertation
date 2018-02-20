@@ -1,0 +1,4 @@
+# Assemble the bootstrap image containing the runtime kernel and associated modules
+
+- name: Build bootstrap image
+  shell: "wwbootstrap `uname -r`"

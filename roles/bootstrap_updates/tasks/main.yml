@@ -1,0 +1,9 @@
+# Optionally, inlcude drivers from kernel updates
+# Required if enabling additional kernel modules on compute nodes
+
+- name: Write to Warewulf bootstrap
+  lineinfile:
+    path: /etc/warewulf/bootstrap.conf
+    state: present
+    regexp: "drivers += updates\\/kernel\\/"
+    line: "drivers += updates/kernel/"
