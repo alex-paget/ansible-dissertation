@@ -6,23 +6,28 @@
     path: "/tmp/network.$$"
     state: present
     create: yes
-    regexp: "GATEWAYDEV={{ eth_provison }}"
-    line: "GATEWAYDEV={{ eth_provison }}"
+    regexp: "GATEWAYDEV={{ eth_provision }}"
+    line: "GATEWAYDEV={{ eth_provision }}"
 
 - name: Import the temp gateway file
-  shell: "wwsh -y file import /tmp/network.$$ --name network"
+  shell: "wwsh -y file import /tmp/network.\\$\\$ --name network"
 
 - name: Set network
   shell: "wwsh -y file set network --path /etc/sysconfig/network --mode=0644 --uid=0"
 
+- name: Check if nodes exist already
+  shell: "wwsh node list | grep {{ c_name }}"
+  register: node_output
+  ignore_errors: yes
+
 - name: Add nodes to warewulf data store
-  shell: "wwsh -y node new {{ c_name }}{{ item }} --ipaddr={{ c_ip }}{{ c_ip_last|int + item|int }} --hwaddr={{ c_mac[item|int] }} -D {{ eth_provision }}"
-  with_sequence:
-    start=0
-    end="{{ num_computes|int - 1}}"
+  shell: "wwsh -y node new {{ c_name }}{{ item.0 }} --ipaddr={{ c_ip }}{{ c_ip_last|int + item.0|int }} --hwaddr={{ item.1 }} -D {{ eth_provision }}"
+  when: node_output.stdout == ""
+  with_indexed_items:
+    - "{{ c_mac }}"
 
 - name: Define image for nodes
-  shell: "wwsh -y provison set \"{{ c_name }}*\" --vnfs=centos7.4 --bootstrap=`uname -r`--files=dynamic_hosts,passwd,group,shadow,slurm.conf,munge.key,network"
+  shell: "wwsh -y provision set \"{{ c_name }}*\" --vnfs=centos7.4 --bootstrap=`uname -r` --files=dynamic_hosts,passwd,group,shadow,slurm.conf,munge.key,network"
 
 - name: Restart DHCPD
   service:
@@ -31,3 +36,4 @@
 
 - name: Update pxe
   shell: "wwsh pxe update"
+  ignore_errors: yes

@@ -1,7 +1,7 @@
 # Default chroot location
 chroot: /opt/ohpc/admin/images/centos7.4
 # Default provisioning interface for computes
-eth_provison: eth0
+eth_provision: eth0
 # No of compute nodes
 num_computes: 4
 # Compute Nodes hostname
@@ -11,4 +11,9 @@ c_ip: 192.168.0.
 # Last Octet of compute IP to start from
 c_ip_last: 2
 # Dummy MAC address
-c_mac: "['00:0c:29:24:53:44', '00:0c:29:24:53:45', '00:0c:29:24:53:46', '00:0c:29:24:53:44']"
+c_mac: 
+  - 00:0c:29:24:53:45
+  - 00:0c:29:24:53:46
+  - 00:0c:29:24:53:47
+  - 00:0c:29:24:53:48
+#"['00:0c:29:24:53:45', '00:0c:29:24:53:46', '00:0c:29:24:53:47', '00:0c:29:24:53:48']"
