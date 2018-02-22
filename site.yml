@@ -37,5 +37,5 @@
    # - bootstrap_core
    # - vnfs
     - register_nodes_core
-   # - register_nodes_predictable
-   # - register_nodes_ib
+    - register_nodes_predictable
+    - register_nodes_ib

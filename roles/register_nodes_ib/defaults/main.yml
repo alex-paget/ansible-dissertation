@@ -6,3 +6,5 @@ c_ipoib: 192.168.5.
 c_ipoib_last: 2
 # Default IPoIB Netmask
 ipoib_netmask: 255.255.255.0
+# No of compute nodes
+num_computes: 4
