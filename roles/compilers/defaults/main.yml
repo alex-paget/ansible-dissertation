@@ -1,4 +1,4 @@
 # Default for whether to install GNU compilers
-gnu_compiler: yes
+gnu_compiler: true
 # Default for whether to install LLVM toolchain
-llvm_compiler: yes
+llvm_compiler: true

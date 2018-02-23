@@ -1,8 +1,8 @@
 # Default for whether to install ethernet MPI
-ethernet_mpi: yes
+ethernet_mpi: true
 # Default for whether to install InfiniBand MPI
-infini_mpi: yes
+infini_mpi: true
 # Default for whether to install OPA MPI
-psm2_mpi: yes
+psm2_mpi: true
 # Default for whether to install OpenMPI PMIx
-pmix_mpi: yes
+pmix_mpi: true
