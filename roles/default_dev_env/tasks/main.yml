@@ -4,16 +4,16 @@
   yum:
     name: lmod-defaults-gnu7-openmpi3-ohpc
     state: present
-  when: openmpi3_dev_env == "true"
+  when: openmpi3_dev_env == true
 
 - name: Install default environment with GNU toolchain and MPICH stack
   yum:
     name: lmod-defaults-gnu7-mpich-ohpc
     state: present
-  when: mpich_dev_env == "true"
+  when: mpich_dev_env == true
 
 - name: Install default environment with GNU toolchain and MVAPICH stack
   yum:
     name: lmod-defaults-gnu7-mvapich2-ohpc
     state: present
-  when: mvapich_dev_env == "true"
+  when: mvapich_dev_env == true

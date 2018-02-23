@@ -4,10 +4,10 @@
   yum:
     name: gnu7-compilers-ohpc
     state: present
-  when: {{ gnu_compiler }} == "true"
+  when: gnu_compiler == true
 
 - name: Install LLVM compiler toolchain
   yum:
     name: llvm5-compilers-ohpc
     state: present
-  when: {{ llvm_compiler }} == "true"
+  when: llvm_compiler == true

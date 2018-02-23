@@ -40,9 +40,9 @@
    # - register_nodes_predictable
    # - register_nodes_ib
    # - stateful_legacy
-    - development_tools
+   # - development_tools
    # - compilers
    # - mpi
-   # - performance_tools
-   # - default_dev_env
+    - performance_tools
+    - default_dev_env
    # - resource_startup
