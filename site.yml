@@ -39,6 +39,7 @@
    # - register_nodes_core
    # - register_nodes_predictable
    # - register_nodes_ib
+   # - stateful_legacy
     - development_tools
    # - compilers
    # - mpi
