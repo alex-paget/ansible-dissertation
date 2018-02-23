@@ -1,0 +1,7 @@
+# Boot the compute nodes
+
+- name: Power reset each node
+  shell: "ipmitool -E -I lanplus -H {{ bmc_host }}{{ bmc_ip|int + item|int }} -U {{ bmc_username }} chassis power reset"
+  with_sequence:
+    start=0
+    end="{{ num_computes - 1 }}"

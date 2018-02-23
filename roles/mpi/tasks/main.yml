@@ -1,0 +1,28 @@
+# Install MPI stacks
+
+- name: Install Ethernet MPI stacks
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - openmpi3-gnu7-ohpc
+    - mpich-gnu7-ohpc
+  when: ethernet_mpi == "yes"
+
+- name: Install InfiniBand MPI stack
+  yum:
+    name: mvapich2-gnu7-ohpc
+    state: present
+  when: infini_mpi == "yes"
+
+- name: Install OPA MPI stack
+  yum:
+    name: mvapich2-psm2-gnu7-ohpc
+    state: present
+  when: psm2_mpi == "yes"
+
+- name: Install OpenMPI PMIx stack
+  yum:
+    name: openmpi3-pmix-slurm-gnu7-ohpc
+    state: present
+  when: pmix_mpi == "yes"

@@ -1,0 +1,13 @@
+# Start the resource manager on the headnode and slurm on the compute node
+
+- name: Start/enable slurm and munge
+  service:
+    name: "{{ item }}"
+    state: restarted
+    enabled: yes
+  with_items:
+    - munge
+    - slurmctld
+
+- name: Start slurm on the compute nodes
+  shell: "pdsh -w {{ c_name }}[0-{{ num_computes|int - 1 }}] systemctl start slurmd"

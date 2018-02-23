@@ -36,6 +36,12 @@
    # - bootstrap_singularity
    # - bootstrap_core
    # - vnfs
-    - register_nodes_core
-    - register_nodes_predictable
-    - register_nodes_ib
+   # - register_nodes_core
+   # - register_nodes_predictable
+   # - register_nodes_ib
+    - development_tools
+   # - compilers
+   # - mpi
+   # - performance_tools
+   # - default_dev_env
+   # - resource_startup

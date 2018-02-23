@@ -1,0 +1,13 @@
+# Install compiler tool chains
+
+- name: Install GNU compiler toolchain
+  yum:
+    name: gnu7-compilers-ohpc
+    state: present
+  when: {{ gnu_compiler }} == "yes"
+
+- name: Install LLVM compiler toolchain
+  yum:
+    name: llvm5-compilers-ohpc
+    state: present
+  when: {{ llvm_compiler }} == "yes"

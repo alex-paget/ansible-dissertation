@@ -1,0 +1,12 @@
+# Add develpment tools to headnode
+
+- name: Install autotools meta-package
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - ohpc-autotools
+    - EasyBuild-ohpc
+    - hwloc-ohpc
+    - spack-ohpc
+    - valgrind-ohpc

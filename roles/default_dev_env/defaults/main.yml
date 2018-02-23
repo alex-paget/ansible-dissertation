@@ -1,0 +1,6 @@
+# Default for whether to install default OpenMPI environment
+openmpi3_dev_env: yes
+# Default for whether to install default MPICH environment
+mpich_dev_env: no
+# Default for whether to install default MVAPICH environment
+mvapich_dev_env: no

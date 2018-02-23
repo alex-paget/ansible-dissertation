@@ -1,0 +1,6 @@
+# Install performance tools
+
+- name: Install perf-tools meta-package
+  yum:
+    name: ohpc-gnu7-perf-tools
+    state: present
