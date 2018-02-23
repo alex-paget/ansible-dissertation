@@ -1,0 +1,24 @@
+# Allow stateful provisioning so the compute node image can be saved to the disk
+
+- name: Install grub2-efi modules in chroot
+  yum:
+    name: "{{ item }}"
+    state: present
+    installroot: "{{ chroot }}"
+  with_items:
+    - grub2-efi
+    - grub2-efi-modules
+
+- name: Reassemble the chroot
+  shell: "wwvnfs --chroot {{ chroot }}"
+
+- name: Copy template efi.cmds to headnode
+  template:
+    src: efi.cmds.j2
+    dest: /etc/warewulf/filesystem/efi.cmds
+
+- name: Set the compute node filesystem to efi
+  shell: "wwsh provision set --filesystem=efi {{ c_name }}*"
+
+- name: Set the compute node bootloader to sda
+  shell: "wwsh provision set --bootloader=sda {{ c_name }}*"

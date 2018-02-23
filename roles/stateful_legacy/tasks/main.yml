@@ -1,0 +1,21 @@
+# Allow stateful provisioning so the compute node image can be saved to the disk
+
+- name: Install grub2 in chroot
+  yum:
+    name: grub2
+    state: present
+    installroot: "{{ chroot }}"
+
+- name: Reassemble the chroot
+  shell: "wwvnfs --chroot {{ chroot }}"
+
+- name: Copy template gpt.cmds to headnode
+  template:
+    src: gpt.cmds.j2
+    dest: /etc/warewulf/filesystem/gpt.cmds
+
+- name: Set the compute node filesystem to gpt
+  shell: "wwsh provision set --filesystem=gpt {{ c_name }}*"
+
+- name: Set the compute node bootloader to sda
+  shell: "wwsh provision set --bootloader=sda {{ c_name }}*"

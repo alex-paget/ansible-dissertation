@@ -1,0 +1,5 @@
+# Additiional boot-time kernel arguments to allow serial connections to be made
+# Required for ConMan
+
+- name: Define kernel arguments to support SOL console
+  shell: "wwsh -y provision set {{ c_name }}* --console=ttyS1,115200"

@@ -1,0 +1,4 @@
+# Compute Nodes hostname
+c_name: compute
+# Default chroot location
+chroot: /opt/ohpc/admin/images/centos7.4
