@@ -22,3 +22,5 @@ def write_line(file, string):
     with open(file, 'a') as the_file:
         the_file.write(string)
         the_file.write("\n")
+
+def minimal()
