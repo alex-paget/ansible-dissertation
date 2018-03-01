@@ -23,4 +23,25 @@ def write_line(file, string):
         the_file.write(string)
         the_file.write("\n")
 
-def minimal()
+def ip_network(answer):
+    while True:
+        input = raw_input(answer)
+        print(input)
+        if re.match("^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}$", input):
+            return True
+        else:
+            print("Please give the IP network in this format: 192.168.0.")
+
+def ip_client(answer):
+    while True:
+        input = raw_input(answer)
+        print(input)
+        if re.match("^(([1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-4]))$", input):
+            return True
+        else:
+            print("Please give the host address in this format: 255")
+
+minimal = yes_no('Deploy Minimal Configuration\n')
+if minimal == True:
+
+ip_network("Please enter the headnode netowrk IP address\n")
