@@ -146,7 +146,7 @@
     path: /etc/nagios/passwd
     state: present
     create: yes
-    name: nagiosadmin
+    name: "{{ nagios_web_user }}"
     password: "{{ nagios_web_password }}"
 
 # Enable Nagios on master, and configure
