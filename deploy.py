@@ -14,6 +14,8 @@ def yes_no(answer):
             return True
         elif choice in no:
             return False
+        elif choice == "":
+            return True
         else:
             print("Please respond with 'yes' or 'no'")
 
@@ -23,30 +25,48 @@ def write_line(file, string):
         the_file.write(string)
         the_file.write("\n")
 
-def ip_network(answer):
+def ip_network(answer, default):
+    # Validates the input of any IP network addresses
     while True:
         input = raw_input(answer)
         print(input)
+        # if the input matches the format expected return it
         if re.match("^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}$", input):
-            return True
+            return input
+        # if the input is blank use the default value
+        elif input == "":
+            return default
+        # for anything else reprompt the user
         else:
-            print("Please give the IP network in this format: 192.168.0.")
+            print("Please give the IP in this format: 192.168.0.")
 
-def ip_client(answer):
+def ip_client(answer, default):
+    # Validates the input of any IP host addresses
     while True:
         input = raw_input(answer)
         print(input)
+        # if the input matches the format expected return it
         if re.match("^(([1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-4]))$", input):
-            return True
+            return input
+        # if the input is blank use the default value
+        elif input == "":
+            return default
+        # for anything else reprompt the user
         else:
             print("Please give the host address in this format: 255")
 
-def netmask(answer):
+def netmask(answer, default):
+    # Validates the input of any netmasks
     while True:
         input = raw_input(answer)
         print(input)
+        # if the input matches the format return it
         if re.match("^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$", input):
-            return True
+            return input
+        # if the input is blank return the default value
+        elif input == "":
+            return default
+        # for anything else reprompt the user
         else:
             print("Please give the netmask in this format: 255.255.255.0")
 
@@ -54,3 +74,5 @@ minimal = yes_no('Deploy Minimal Configuration\n')
 if minimal == True:
 
 ip_network("Please enter the headnode netowrk IP address\n")
+
+#
