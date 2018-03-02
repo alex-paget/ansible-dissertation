@@ -1,6 +1,6 @@
 # Num of Computes
 num_computes: 4
- Default BMC host range
+# Default BMC host range
 bmc_host: 194.168.0.
 # Default BMC starting IP
 bmc_ip: 2
