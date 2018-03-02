@@ -1,3 +1,8 @@
 # Default slurm hostname
 
 sms_name: "{{ ansible_hostname }}"
+c_name: compute
+num_computes: 4
+num_cores: 8
+num_sockets: 2
+num_threads: 2

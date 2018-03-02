@@ -11,3 +11,15 @@
     regexp: 'ControlMachine=(.*)'
     replace: "ControlMachine={{ sms_name }}"
     backup: yes
+
+- name: Define Compute Identities
+  replace:
+    path: /etc/slurm/slurm.conf
+    regexp: "NodeName=(.*)"
+    replace: "NodeName={{ c_name }}[0-{{ num_computes|int - 1 }}] Sockets={{ num_sockets }} CoresPerSocket={{ num_cores }} ThreadsPerCore={{ num_threads }} State=UNKOWN"
+
+- name: Define Compute Partition
+  replace:
+    path: /etc/slurm/slurm.conf
+    regexp: "PartitionName=(.*)"
+    replace: "PartitionName=normal Nodes={{ c_name }}[0-{{ num_computes|int - 1 }}] Default=YES MaxTime=24:00:00 State=UP"
