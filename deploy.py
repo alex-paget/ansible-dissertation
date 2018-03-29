@@ -241,4 +241,23 @@ else:
             c_bmc_user = is_alphanumeric("Please enter the BMC username[admin]: ", "admin")
             c_bmc_password = is_alphanumeric("Please enter the BMC password[password]: ", "password")
     # Import files core
+    # Import files ib
+    # Bootstrap kernel
+    bootstrap_kernel = yes_no("Add additional kernel arguments to bootstrap? ")
+    # Bootstrap Singularity
+    bootstrap_singularity = yes_no("Add Singularity arguments to kernel? ")
+    # Bootstrap
+    # VNFS
+    # Register nodes core
+    c_provision = required("Please enter the compute node provisioning interface: ")
+    c_ipaddr_network = ip_network("Please enter the compute IP network[192.168.0.]: ", "192.168.0.")
+    c_ipaddr_client = ip_client("Please enter the compute IP client start address[2]: ", "2")
+    c_mac = []
+    for x in range(0, int(compute_no)):
+        c_mac.append(required("Please enter MAC: "))
+    # Register nodes IB
+    if infiniband_support == True:
+        c_ipoib_network = ip_network("Please enter the compute IPoIB network[192.168.5.]: ", "192.168.5.")
+        c_ipoib_client = ip_client("Please enter the compute IPoIB client start address[2]: ", "2")
+    # Register nodes predictable
     
