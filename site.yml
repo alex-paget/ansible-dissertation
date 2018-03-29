@@ -10,7 +10,7 @@
    # - install_bos
    # - enable_ohpc_repo
    # - add_provision
-   # - resource_management
+    - resource_management
    # - infiniband_support
    # - opa_support_base
    # - basic_warewulf
@@ -43,6 +43,6 @@
    # - development_tools
    # - compilers
    # - mpi
-    - performance_tools
-    - default_dev_env
+   # - performance_tools
+   # - default_dev_env
    # - resource_startup

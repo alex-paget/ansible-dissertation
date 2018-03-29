@@ -1,4 +1,6 @@
 #!/usr/bin/python
+import subprocess
+import re
 
 # Function that prompts users for yes or no response
 def yes_no(answer):
@@ -114,7 +116,7 @@ def is_num(answer, default):
         else:
             print("Please enter a number")
 
-minimal = yes_no('Deploy Minimal Configuration\n')
+minimal = yes_no('Deploy Minimal Configuration? ')
 if minimal == True:
     # BOS
     ipaddr_network = ip_network("Please enter headnode IP network[192.168.0.]: ", "192.168.0.")
@@ -131,15 +133,15 @@ if minimal == True:
     core_no = is_num("Please enter the number of cores per socket[8]: ", "8")
     threads_no = is_num("Please enter the number of threads per core[2]: ", "2")
     # Basic warewulf
-    interal_interface = required("What is the internal interface for the headnode? ")
+    interal_interface = required("Please enter the provisioning interface for the headnode: ")
     ip_netmask = netmask("Please enter the netmask for the headnode[255.255.255.0]: ", "255.255.255.0")
     # Customise sys config
     home_mount = generic("Please enter the home mount point[/home]: ", "/home")
     opt_mount = generic("Please enter the opt mount point[/opt/ohpc/pub]: ", "/opt/ohpc/pub")
     # Register nodes core
-    c_provision = required("Please enter the compute node provisioning interface")
+    c_provision = required("Please enter the compute node provisioning interface: ")
     c_ipaddr_network = ip_network("Please enter the compute IP network[192.168.0.]: ", "192.168.0.")
     c_ipaddr_client = ip_client("Please enter the compute IP client start address[2]: ", "2")
     c_mac = []
-    for x in range(0, compute_no):
-        c_mac.append(required("Please enter MAC ", x, ": "))
+    for x in range(0, int(compute_no)):
+        c_mac.append(required("Please enter MAC: "))
