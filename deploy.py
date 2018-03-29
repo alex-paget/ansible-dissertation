@@ -75,7 +75,7 @@ def is_alphanumeric(answer, default):
     while True:
         input = raw_input(answer)
         # if the input matches the format return it
-        if input.isalpha() == True:
+        if input.isalnum() == True:
             return input
         # if the input is blank
         elif input == "":
@@ -92,6 +92,15 @@ def generic(answer, default):
     else:
         return input
 
+def required(answer):
+    # Prompts until the user enters an answer
+    while True:
+        input = raw_input(answer)
+        if not input:
+            print("Please enter a response")
+        else:
+            return input
+
 def is_num(answer, default):
     # Validates the input is a number
     while True:
@@ -107,16 +116,30 @@ def is_num(answer, default):
 
 minimal = yes_no('Deploy Minimal Configuration\n')
 if minimal == True:
+    # BOS
     ipaddr_network = ip_network("Please enter headnode IP network[192.168.0.]: ", "192.168.0.")
-    ipaddr_client = ip_client("Please enter headnoe IP client address[1]: ", "1")
+    ipaddr_client = ip_client("Please enter headnode IP client address[1]: ", "1")
+    sms_name = generic("Please enter the headnode hostname[headnode]: ", "headnode")
+    # Enable ohpc repo
     repo = generic("Please enter the OpenHPC repo to use[http://build.openhpc.community/OpenHPC:/1.3/CentOS_7/x86_64/ohpc-release-1.3-1.el7.x86_64.rpm]:", "http://build.openhpc.community/OpenHPC:/1.3/CentOS_7/x86_64/ohpc-release-1.3-1.el7.x86_64.rpm")
+    # Add provision
     ntp = generic("Please enter the NTP to use[0.centos.pool.ntp.org]: ", "0.centos.pool.ntp.org")
-    compute_name = generic("Please enter the name for the compute nodes[compute]: ", "compute")
+    # Resource management
+    compute_name = is_alphanumeric("Please enter the name for the compute nodes[compute]: ", "compute")
     compute_no = is_num("Please enter the number of compute nodes[4]: ", "4")
-
-
-
-
-ip_network("Please enter the headnode netowrk IP address\n")
-
-#
+    socket_no = is_num("Please enter the number of sockets[2]: ", "2")
+    core_no = is_num("Please enter the number of cores per socket[8]: ", "8")
+    threads_no = is_num("Please enter the number of threads per core[2]: ", "2")
+    # Basic warewulf
+    interal_interface = required("What is the internal interface for the headnode? ")
+    ip_netmask = netmask("Please enter the netmask for the headnode[255.255.255.0]: ", "255.255.255.0")
+    # Customise sys config
+    home_mount = generic("Please enter the home mount point[/home]: ", "/home")
+    opt_mount = generic("Please enter the opt mount point[/opt/ohpc/pub]: ", "/opt/ohpc/pub")
+    # Register nodes core
+    c_provision = required("Please enter the compute node provisioning interface")
+    c_ipaddr_network = ip_network("Please enter the compute IP network[192.168.0.]: ", "192.168.0.")
+    c_ipaddr_client = ip_client("Please enter the compute IP client start address[2]: ", "2")
+    c_mac = []
+    for x in range(0, compute_no):
+        c_mac.append(required("Please enter MAC ", x, ": "))
