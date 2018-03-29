@@ -132,6 +132,56 @@ def is_num(answer, default):
         else:
             print("Please enter a number")
 
+def efi_legacy(answer):
+    # Validates that the user entered an expected answer
+    while True:
+        input = raw_input(answer).lower()
+        if input == "efi":
+            return "efi"
+        elif input == "legacy":
+            return "legacy"
+        else:
+            print("Please enter efi or legacy")
+
+def compiler(answer):
+    # Validates that the user entered an expected answer
+    while True:
+        input = raw_input(answer).lower()
+        if input == "gnu":
+            return "gnu"
+        elif input == "llvm":
+            return "llvm"
+        else:
+            print("Please enter gnu or llvm")
+
+def mpi(answer):
+    # Validates that the user entered an expected answer
+    while True:
+        input = raw_input(answer).lower()
+        if input == "ethernet":
+            return "ethernet"
+        elif input == "infiniband":
+            return "infiniband"
+        elif input == "opa":
+            return "opa"
+        elif input == "pmix":
+            return == "pmix"
+        else:
+            print("Please enter openmpi, mpich, or mvapich")
+
+def default_dev(answer):
+    # Validates that the user entered an expected answer
+    while True:
+        input = raw_input(answer).lower()
+        if input == "openmpi":
+            return "openmpi"
+        elif input == "mpich":
+            return "mpich"
+        elif input == "mvapich":
+            return "mvapich"
+        else:
+            print("Please enter openmpi, mpich, or mvapich")
+
 minimal = yes_no('Deploy Minimal Configuration? ')
 if minimal == True:
     # BOS
@@ -260,4 +310,17 @@ else:
         c_ipoib_network = ip_network("Please enter the compute IPoIB network[192.168.5.]: ", "192.168.5.")
         c_ipoib_client = ip_client("Please enter the compute IPoIB client start address[2]: ", "2")
     # Register nodes predictable
-    
+    register_predictable = yes_no("Set compute interface names? ")
+    # Stateful
+    stateful = yes_no("Deploy nodes in stateful configuration? ")
+    if stateful == True:
+        stateful_mode = efi_legacy("Deploy nodes as efi or legacy?")
+    # Boot nodes
+    # Development
+    dev = yes_no("Install Development Tools? ")
+    if dev == True:
+        compiler = compiler("Which compiler should be installed: gnu or llvm? ")
+        mpi = mpi("Which MPI stack should be installed: ethernet, infiniband, opa, or pmix? ")
+        default_dev = default_dev("Which toolchain should be installed: openmpi, mpich, or mvapich?")
+        performance_tools = yes_no("Install performance tools? ")
+    # Resource startup
