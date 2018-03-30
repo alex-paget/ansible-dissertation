@@ -326,37 +326,55 @@ else:
     # Resource startup
 
 # Write to file
-user_defined = ['ipaddr_network', 'ip_client', 'sms_name', 'repo', 'ntp', 'compute_name', 'compute_no', 'socket_no', 'core_no', 'threads_no', 'ib_network', 'ib_client', 'interal_interface', 'ip_netmask', 'chroot', 'home_mount', 'opt_mount', 'beegfs_repo', 'beegfs_ip', 'lustre_mount', 'lustre_ip', 'nagios_user', 'nagios_pass', 'bmc_network', 'c_bmc_client', 'c_bmc_user', 'c_bmc_password' 'c_provision', 'c_ipaddr_network', 'c_ipaddr_client', 'c_ipoib_network', 'c_ipoib_client']
+user_defined = [ipaddr_network, ip_client, sms_name, repo, ntp, compute_name, compute_no, socket_no, core_no, threads_no, ib_network, ib_client, interal_interface, ip_netmask, chroot, home_mount, opt_mount, beegfs_repo, beegfs_ip, lustre_mount, lustre_ip, nagios_user, nagios_pass, bmc_network, c_bmc_client, c_bmc_user, c_bmc_password c_provision, c_ipaddr_network, c_ipaddr_client, c_ipoib_network, c_ipoib_client]
 for x in range(len(user_defined)):
     if user_defined[x] != "":
         print(user_defined[x])
 for x in range(len(c_mac)):
     print(c_mac[x])
-print(infiniband_support)
-print(omnipath_base)
-print(c_infiniband_support)
-print(mem_limit)
-print(ssh)
-print(beegfs)
-print(lustre)
-print(logs)
-print(nagios)
-print(ganglia)
-print(clustershell)
-print(mrsh)
-print(genders)
-print(conman)
-print(bootstrap_kernel)
-print(bootstrap_singularity)
-print(register_predictable)
+if infiniband_support != "":
+    print(infiniband_support)
+if omnipath_base != "":
+    print(omnipath_base)
+if c_infiniband_support != "":
+    print(c_infiniband_support)
+if mem_limit != "":
+    print(mem_limit)
+if ssh != "":
+    print(ssh)
+if beegfs != "":
+    print(beegfs)
+if lustre != "":
+    print(lustre)
+if logs != "":
+    print(logs)
+if nagios != "":
+    print(nagios)
+if ganglia != "":
+    print(ganglia)
+if clustershell != "":
+    print(clustershell)
+if mrsh != "":
+    print(mrsh)
+if genders != "":
+    print(genders)
+if conman != "":
+    print(conman)
+if bootstrap_kernel != "":
+    print(bootstrap_kernel)
+if bootstrap_singularity != "":
+    print(bootstrap_singularity)
+if register_predictable != "":
+    print(register_predictable)
 if stateful_mode == "efi":
     print("efi")
 elif stateful_mode == "legacy":
     print("legacy")
 else:
     print("stateful empty")
-print(dev)
-user_dev = ['compiler', 'mpi', 'default_dev', 'performance_tools']
-for x in range(len(user_dev)):
-    if user_dev[x] != "":
-        print(user_dev[x])
+if dev != "":
+    print(dev)
+    user_dev = [compiler, mpi, default_dev, performance_tools]
+    for x in range(len(user_dev)):
+        if user_dev[x] != "":
+            print(user_dev[x])
