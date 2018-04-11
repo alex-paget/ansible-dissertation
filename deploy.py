@@ -317,50 +317,50 @@ else:
     # Resource startup
 
 # Write to file
-user_defined = [ipaddr_network, ip_client, sms_name, repo, ntp, compute_name, compute_no, socket_no, core_no, threads_no, interal_interface, ip_netmask, chroot, home_mount, opt_mount, bmc_network, c_provision, c_ipaddr_network, c_ipaddr_client]
+user_defined = [ipaddr_network, ip_client, sms_name, repo, ntp, compute_name, compute_no, socket_no, core_no, threads_no, interal_interface, ip_netmask, chroot, home_mount, opt_mount, bmc_network, c_bmc_client, c_provision, c_ipaddr_network, c_ipaddr_client]
 for x in range(len(user_defined)):
-    if user_defined[x] != "":
+    if user_defined[x] != None:
         print(user_defined[x])
 for x in range(len(c_mac)):
     print(c_mac[x])
-if infiniband_support != "":
+if infiniband_support != None:
     print(infiniband_support)
     print(ib_network, ib_client)
-if omnipath_base != "":
+if omnipath_base != None:
     print(omnipath_base)
-if c_infiniband_support != "":
+if c_infiniband_support != None:
     print(c_infiniband_support)
     print(c_ipoib_network, c_ipoib_client)
-if mem_limit != "":
+if mem_limit != None:
     print(mem_limit)
-if ssh != "":
+if ssh != None:
     print(ssh)
-if beegfs != "":
+if beegfs != None:
     print(beegfs)
     print(beegfs_repo, beegfs_ip)
-if lustre != "":
+if lustre != None:
     print(lustre)
     print(lustre_mount, lustre_ip)
-if logs != "":
+if logs != None:
     print(logs)
-if nagios != "":
+if nagios != None:
     print(nagios)
     print(nagios_user, nagios_pass)
-if ganglia != "":
+if ganglia != None:
     print(ganglia)
-if clustershell != "":
+if clustershell != None:
     print(clustershell)
-if mrsh != "":
+if mrsh != None:
     print(mrsh)
-if genders != "":
+if genders != None:
     print(genders)
-if conman != "":
+if conman != None:
     print(conman)
-if bootstrap_kernel != "":
+if bootstrap_kernel != None:
     print(bootstrap_kernel)
-if bootstrap_singularity != "":
+if bootstrap_singularity != None:
     print(bootstrap_singularity)
-if register_predictable != "":
+if register_predictable != None:
     print(register_predictable)
 if stateful_mode == "efi":
     print("efi")
@@ -368,9 +368,9 @@ elif stateful_mode == "legacy":
     print("legacy")
 else:
     print("stateful empty")
-if dev != "":
+if dev != None:
     print(dev)
     user_dev = [compiler, mpi, default_dev, performance_tools]
     for x in range(len(user_dev)):
-        if user_dev[x] != "":
+        if user_dev[x] != None:
             print(user_dev[x])
