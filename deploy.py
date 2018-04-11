@@ -326,7 +326,7 @@ else:
     # Resource startup
 
 # Write to file
-user_defined = [ipaddr_network, ip_client, sms_name, repo, ntp, compute_name, compute_no, socket_no, core_no, threads_no, interal_interface, ip_netmask, chroot, home_mount, opt_mount, beegfs_repo, beegfs_ip, lustre_mount, lustre_ip, nagios_user, nagios_pass, bmc_network, c_bmc_client, c_bmc_user, c_bmc_password, c_provision, c_ipaddr_network, c_ipaddr_client]
+user_defined = [ipaddr_network, ip_client, sms_name, repo, ntp, compute_name, compute_no, socket_no, core_no, threads_no, interal_interface, ip_netmask, chroot, home_mount, opt_mount, bmc_network, c_bmc_client, c_bmc_user, c_bmc_password, c_provision, c_ipaddr_network, c_ipaddr_client]
 for x in range(len(user_defined)):
     if user_defined[x] != "":
         print(user_defined[x])
@@ -346,12 +346,15 @@ if ssh != "":
     print(ssh)
 if beegfs != "":
     print(beegfs)
+    print(beegfs_repo, beegfs_ip)
 if lustre != "":
     print(lustre)
+    print(lustre_mount, lustre_ip)
 if logs != "":
     print(logs)
 if nagios != "":
     print(nagios)
+    print(nagios_user, nagios_pass)
 if ganglia != "":
     print(ganglia)
 if clustershell != "":
