@@ -279,17 +279,8 @@ else:
     mrsh = yes_no("Add Mrsh to cluster? ")
     # Genders
     genders = yes_no("Add genders to cluster? ")
-    if genders == True:
-        bmc_network = ip_network("Please enter the BMC IP network[192.168.1.]: ", "192.168.1.")
-        c_bmc_client = ip_client("Please enter the BMC IP client compute start address[2]: ", "2")
     # Conman
     conman = yes_no("Add Conman to cluster? ")
-    if conman == True:
-        if bmc_network != "":
-            bmc_network = ip_network("Please enter the BMC IP network[192.168.1.]: ", "192.168.1.")
-            c_bmc_client = ip_client("Please enter the BMC IP client compute start address[2]: ", "2")
-            c_bmc_user = is_alphanumeric("Please enter the BMC username[admin]: ", "admin")
-            c_bmc_password = is_alphanumeric("Please enter the BMC password[password]: ", "password")
     # Import files core
     # Import files ib
     # Bootstrap kernel
@@ -326,7 +317,7 @@ else:
     # Resource startup
 
 # Write to file
-user_defined = [ipaddr_network, ip_client, sms_name, repo, ntp, compute_name, compute_no, socket_no, core_no, threads_no, interal_interface, ip_netmask, chroot, home_mount, opt_mount, bmc_network, c_bmc_client, c_bmc_user, c_bmc_password, c_provision, c_ipaddr_network, c_ipaddr_client]
+user_defined = [ipaddr_network, ip_client, sms_name, repo, ntp, compute_name, compute_no, socket_no, core_no, threads_no, interal_interface, ip_netmask, chroot, home_mount, opt_mount, bmc_network, c_bmc_client, c_provision, c_ipaddr_network, c_ipaddr_client]
 for x in range(len(user_defined)):
     if user_defined[x] != "":
         print(user_defined[x])
