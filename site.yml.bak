@@ -1,0 +1,48 @@
+# This playbook deploys the whole OpenHPC software stack
+
+- name: Deploy OpenHPC
+  hosts: all
+  remote_user: afpaget
+  become: yes
+  become_method: sudo
+
+  roles:
+   # - install_bos
+   # - enable_ohpc_repo
+   # - add_provision
+    - resource_management
+   # - infiniband_support
+   # - opa_support_base
+   # - basic_warewulf
+   # - initial_bos_image
+   # - ohpc_components
+   # - customise_sys_config
+   # - infiniband_drivers_comp
+   # - opa_drivers_base_comp
+   # - mem_limit
+   # - ssh_control
+   # - beegfs
+   # - lustre
+   # - forward_logs
+   # - nagios (This is broken)
+   # - ganglia
+   # - clustershell
+   # - mrsh
+   # - genders
+   # - conman
+   # - import_files_core
+   # - import_files_ib
+   # - bootstrap_updates
+   # - bootstrap_singularity
+   # - bootstrap_core
+   # - vnfs
+   # - register_nodes_core
+   # - register_nodes_predictable
+   # - register_nodes_ib
+   # - stateful_legacy
+   # - development_tools
+   # - compilers
+   # - mpi
+   # - performance_tools
+   # - default_dev_env
+   # - resource_startup
