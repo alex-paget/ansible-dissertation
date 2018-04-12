@@ -187,37 +187,123 @@ if minimal == True:
     # BOS
     ipaddr_network = ip_network("Please enter headnode IP network[192.168.0.]: ", "192.168.0.")
     ipaddr_client = ip_client("Please enter headnode IP client address[1]: ", "1")
+    buffer = "sms_ip: " + ipaddr_network + ipaddr_client + "\n"
+    with open('./group_vars/all', 'w') as the_file:
+        the_file.write(buffer)
     sms_name = generic("Please enter the headnode hostname[headnode]: ", "headnode")
-    # Enable ohpc repo
+    buffer = "sms_name: " + sms_name + "\n"
+    with open('./group_vars/all', 'a') as the_file:
+        the_file.write(buffer)
+    with open('site.yml', 'w') as the_file:
+        the_file.write('{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n{6}\n{7}\n{8}\n{9}\n'.format("# This playbook deploys the whole OpenHPC software stack", "", "- name: Deploy OpenHPC", "  hosts: all", "  remote_user: afpaget", "  become: yes", "  become_method: sudo", "", "  roles:", "     - install_bos"))
+    with open('hosts', 'w') as the_file:
+        the_file.write('{0}\n{1}\n{2}\n{3}\n{4}{5}{6}\n'.format("all:", " hosts:", "  headnode:", "   ansible_port: 22", "   ansible_host: ", ipaddr_network, ipaddr_client))
     repo = generic("Please enter the OpenHPC repo to use[http://build.openhpc.community/OpenHPC:/1.3/CentOS_7/x86_64/ohpc-release-1.3-1.el7.x86_64.rpm]:", "http://build.openhpc.community/OpenHPC:/1.3/CentOS_7/x86_64/ohpc-release-1.3-1.el7.x86_64.rpm")
+    buffer = "ohpc_repo: ", repo + "\n"
+    with open('./group_vars/all', 'a') as the_file:
+        the_file.write(buffer)
     # Add provision
     ntp = generic("Please enter the NTP to use[0.centos.pool.ntp.org]: ", "0.centos.pool.ntp.org")
+    buffer = "ntp_server: ", ntp + "\n"
+    with open('./group_vars/all', 'a') as the_file:
+        the_file.write(buffer)
+    with open('site.yml', 'a') as the_file:
+        the_file.write('     - enable_ohpc_repo\n')
     # Resource management
     compute_name = is_alphanumeric("Please enter the name for the compute nodes[compute]: ", "compute")
+    buffer = "c_name: " + compute_name + "\n"
+    with open('./group_vars/all', 'a') as the_file:
+        the_file.write(buffer)
     compute_no = is_num("Please enter the number of compute nodes[4]: ", "4")
+    buffer = "num_computes: " + compute_no + "\n"
+    with open('./group_vars/all', 'a') as the_file:
+        the_file.write(buffer)
     socket_no = is_num("Please enter the number of sockets[2]: ", "2")
+    buffer = "num_sockets: " + socket_no + "\n"
+    with open('./group_vars/all', 'a') as the_file:
+        the_file.write(buffer)
     core_no = is_num("Please enter the number of cores per socket[8]: ", "8")
+    buffer = "num_cores: " + core_no + "\n"
+    with open('./group_vars/all', 'a') as the_file:
+        the_file.write(buffer)
     threads_no = is_num("Please enter the number of threads per core[2]: ", "2")
+    buffer = "num_threads: " + threads_no + "\n"
+    with open('./group_vars/all', 'a') as the_file:
+        the_file.write(buffer)
+    with open('site.yml', 'a') as the_file:
+        the_file.write("     - resource_management\n")
     # Basic warewulf
     interal_interface = required("Please enter the provisioning interface for the headnode: ")
+    buffer = "sms_eth_internal: " + interal_interface + "\n"
+    with open('./group_vars/all', 'a') as the_file:
+        the_file.write(buffer)
     ip_netmask = netmask("Please enter the netmask for the headnode[255.255.255.0]: ", "255.255.255.0")
+    buffer = "sms_netmask: " + ip_netmask + "\n"
+    with open('./group_vars/all', 'a') as the_file:
+        the_file.write(buffer)
+    with open('site.yml', 'a') as the_file:
+        the_file.write("     - basic_warewulf\n")
     # Install BOS
     chroot = generic("Please enter the chroot location[/opt/ohpc/admin/images/centos7.4]: ", "/opt/ohpc/admin/images/centos7.4")
+    buffer = "chroot: " + chroot + "\n"
+    with open('./group_vars/all', 'a') as the_file:
+        the_file.write(buffer)
+    with open('site.yml', 'a')as the_file:
+        the_file.write("     - initial_bos_image\n")
     # Customise sys config
     home_mount = generic("Please enter the home mount point[/home]: ", "/home")
+    buffer = "home_mount: " + home_mount + "\n"
+    with open('./group_vars/all', 'a') as the_file:
+        the_file.write(buffer)
     opt_mount = generic("Please enter the opt mount point[/opt/ohpc/pub]: ", "/opt/ohpc/pub")
+    buffer = "opt_mount: " + opt_mount + "\n"
+    with open('./group_vars/all', 'a') as the_file:
+        the_file.write(buffer)
+    with open('site.yml', 'a') as the_file:
+        the_file.write("     - customise_sys_config\n")
     # Register nodes core
     c_provision = required("Please enter the compute node provisioning interface: ")
+    buffer = "eth_provision: " + c_provision + "\n"
+    with open('./group_vars/all', 'a') as the_file:
+        the_file.write(buffer)
     c_ipaddr_network = ip_network("Please enter the compute IP network[192.168.0.]: ", "192.168.0.")
+    buffer = "c_ip: " + c_ipaddr_network + "\n"
+    with open('./group_vars/all', 'a') as the_file:
+        the_file.write(buffer)
     c_ipaddr_client = ip_client("Please enter the compute IP client start address[2]: ", "2")
+    buffer = "c_ip_last: " + c_ipaddr_client + "\n"
+    with open('./group_vars/all', 'a') as the_file:
+        the_file.write(buffer)
     c_mac = []
     for x in range(0, int(compute_no)):
         c_mac.append(required("Please enter MAC: "))
+    with open('./group_vars/all', 'a') as the_file:
+        the_file.write("c_mac: \n")
+    for i in range(len(c_mac)):
+        buffer = "  - " + c_mac[i] + "\n"
+        with open('./group_vars/all', 'a') as the_file:
+            the_file.write(buffer)
+    with open('site.yml', 'a') as the_file:
+        the_file.write("     - register_nodes_core\n")
     # Boot nodes
     bmc_network = ip_network("Please enter the BMC network address[192.168.1.]: ", "192.168.0.")
+    buffer = "bmc_host: " + bmc_network + "\n"
+    with open('./group_vars/all', 'a') as the_file:
+        the_file.write(buffer)
     bmc_client = ip_client("Please enter the BMC client start address[2]: ", "2")
+    buffer = "bmc_ip: " + bmc_client + "\n"
+    with open('./group_vars/all', 'a') as the_file:
+        the_file.write(buffer)
     bmc_user = required("Please enter the BMC username: ")
+    buffer = "bmc_username: " + bmc_user + "\n"
+    with open('./group_vars/all', 'a') as the_file:
+        the_file.write(buffer)
     bmc_password = required("Please enter the BMC password: ")
+    buffer = "bmc_password: " + bmc_password + "\n"
+    with open('./group_vars/all', 'a') as the_file:
+        the_file.write(buffer)
+    with open('site.yml', 'a') as the_file:
+        the_file.write("     - boot_nodes")
 else:
     # BOS
     ipaddr_network = ip_network("Please enter headnode IP network[192.168.0.]: ", "192.168.0.")
@@ -316,61 +402,61 @@ else:
         performance_tools = yes_no("Install performance tools? ")
     # Resource startup
 
-# Write to file
-user_defined = [ipaddr_network, ip_client, sms_name, repo, ntp, compute_name, compute_no, socket_no, core_no, threads_no, interal_interface, ip_netmask, chroot, home_mount, opt_mount, bmc_network, bmc_client, c_provision, c_ipaddr_network, c_ipaddr_client]
-for x in range(len(user_defined)):
-    if user_defined[x] != None:
-        print(user_defined[x])
-for x in range(len(c_mac)):
-    print(c_mac[x])
-if infiniband_support != None:
-    print(infiniband_support)
-    print(ib_network, ib_client)
-if omnipath_base != None:
-    print(omnipath_base)
-if c_infiniband_support != None:
-    print(c_infiniband_support)
-    print(c_ipoib_network, c_ipoib_client)
-if mem_limit != None:
-    print(mem_limit)
-if ssh != None:
-    print(ssh)
-if beegfs != None:
-    print(beegfs)
-    print(beegfs_repo, beegfs_ip)
-if lustre != None:
-    print(lustre)
-    print(lustre_mount, lustre_ip)
-if logs != None:
-    print(logs)
-if nagios != None:
-    print(nagios)
-    print(nagios_user, nagios_pass)
-if ganglia != None:
-    print(ganglia)
-if clustershell != None:
-    print(clustershell)
-if mrsh != None:
-    print(mrsh)
-if genders != None:
-    print(genders)
-if conman != None:
-    print(conman)
-if bootstrap_kernel != None:
-    print(bootstrap_kernel)
-if bootstrap_singularity != None:
-    print(bootstrap_singularity)
-if register_predictable != None:
-    print(register_predictable)
-if stateful_mode == "efi":
-    print("efi")
-elif stateful_mode == "legacy":
-    print("legacy")
-else:
-    print("stateful empty")
-if dev != None:
-    print(dev)
-    user_dev = [compiler, mpi, default_dev, performance_tools]
-    for x in range(len(user_dev)):
-        if user_dev[x] != None:
-            print(user_dev[x])
+# # Write to file
+# user_defined = [ipaddr_network, ip_client, sms_name, repo, ntp, compute_name, compute_no, socket_no, core_no, threads_no, interal_interface, ip_netmask, chroot, home_mount, opt_mount, bmc_network, bmc_client, c_provision, c_ipaddr_network, c_ipaddr_client]
+# for x in range(len(user_defined)):
+#     if user_defined[x] != None:
+#         print(user_defined[x])
+# for x in range(len(c_mac)):
+#     print(c_mac[x])
+# if infiniband_support != None:
+#     print(infiniband_support)
+#     print(ib_network, ib_client)
+# if omnipath_base != None:
+#     print(omnipath_base)
+# if c_infiniband_support != None:
+#     print(c_infiniband_support)
+#     print(c_ipoib_network, c_ipoib_client)
+# if mem_limit != None:
+#     print(mem_limit)
+# if ssh != None:
+#     print(ssh)
+# if beegfs != None:
+#     print(beegfs)
+#     print(beegfs_repo, beegfs_ip)
+# if lustre != None:
+#     print(lustre)
+#     print(lustre_mount, lustre_ip)
+# if logs != None:
+#     print(logs)
+# if nagios != None:
+#     print(nagios)
+#     print(nagios_user, nagios_pass)
+# if ganglia != None:
+#     print(ganglia)
+# if clustershell != None:
+#     print(clustershell)
+# if mrsh != None:
+#     print(mrsh)
+# if genders != None:
+#     print(genders)
+# if conman != None:
+#     print(conman)
+# if bootstrap_kernel != None:
+#     print(bootstrap_kernel)
+# if bootstrap_singularity != None:
+#     print(bootstrap_singularity)
+# if register_predictable != None:
+#     print(register_predictable)
+# if stateful_mode == "efi":
+#     print("efi")
+# elif stateful_mode == "legacy":
+#     print("legacy")
+# else:
+#     print("stateful empty")
+# if dev != None:
+#     print(dev)
+#     user_dev = [compiler, mpi, default_dev, performance_tools]
+#     for x in range(len(user_dev)):
+#         if user_dev[x] != None:
+#             print(user_dev[x])
