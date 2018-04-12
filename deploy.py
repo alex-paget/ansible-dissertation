@@ -190,6 +190,8 @@ if minimal == True:
     buffer = "sms_ip: " + ipaddr_network + ipaddr_client + "\n"
     with open('./group_vars/all', 'w') as the_file:
         the_file.write(buffer)
+    with open('hosts', 'w') as the_file:
+        the_file.write('{0}\n{1}\n{2}\n{3}\n{4}{5}{6}\n'.format("all:", " hosts:", "  headnode:", "   ansible_port: 22", "   ansible_host: ", ipaddr_network, ipaddr_client))
     sms_name = generic("Please enter the headnode hostname[headnode]: ", "headnode")
     buffer = "sms_name: " + sms_name + "\n"
     with open('./group_vars/all', 'a') as the_file:
@@ -199,12 +201,13 @@ if minimal == True:
     with open('hosts', 'w') as the_file:
         the_file.write('{0}\n{1}\n{2}\n{3}\n{4}{5}{6}\n'.format("all:", " hosts:", "  headnode:", "   ansible_port: 22", "   ansible_host: ", ipaddr_network, ipaddr_client))
     repo = generic("Please enter the OpenHPC repo to use[http://build.openhpc.community/OpenHPC:/1.3/CentOS_7/x86_64/ohpc-release-1.3-1.el7.x86_64.rpm]:", "http://build.openhpc.community/OpenHPC:/1.3/CentOS_7/x86_64/ohpc-release-1.3-1.el7.x86_64.rpm")
-    buffer = "ohpc_repo: ", repo + "\n"
+    print(repo)
+    buffer = "ohpc_repo: " + repo + "\n"
     with open('./group_vars/all', 'a') as the_file:
         the_file.write(buffer)
     # Add provision
     ntp = generic("Please enter the NTP to use[0.centos.pool.ntp.org]: ", "0.centos.pool.ntp.org")
-    buffer = "ntp_server: ", ntp + "\n"
+    buffer = "ntp_server: " + ntp + "\n"
     with open('./group_vars/all', 'a') as the_file:
         the_file.write(buffer)
     with open('site.yml', 'a') as the_file:
