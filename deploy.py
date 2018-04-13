@@ -197,8 +197,6 @@ if minimal == True:
         the_file.write(buffer)
     with open('site.yml', 'w') as the_file:
         the_file.write('{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n{6}\n{7}\n{8}\n{9}\n'.format("# This playbook deploys the whole OpenHPC software stack", "", "- name: Deploy OpenHPC", "  hosts: all", "  remote_user: afpaget", "  become: yes", "  become_method: sudo", "", "  roles:", "     - install_bos"))
-    with open('hosts', 'w') as the_file:
-        the_file.write('{0}\n{1}\n{2}\n{3}\n{4}{5}{6}\n'.format("all:", " hosts:", "  headnode:", "   ansible_port: 22", "   ansible_host: ", ipaddr_network, ipaddr_client))
     repo = generic("Please enter the OpenHPC repo to use[http://build.openhpc.community/OpenHPC:/1.3/CentOS_7/x86_64/ohpc-release-1.3-1.el7.x86_64.rpm]:", "http://build.openhpc.community/OpenHPC:/1.3/CentOS_7/x86_64/ohpc-release-1.3-1.el7.x86_64.rpm")
     print(repo)
     buffer = "ohpc_repo: " + repo + "\n"
