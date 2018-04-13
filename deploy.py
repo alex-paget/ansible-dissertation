@@ -212,6 +212,9 @@ if minimal == True:
         the_file.write(buffer)
     with open('site.yml', 'a') as the_file:
         the_file.write('     - enable_ohpc_repo\n')
+    # Add provision
+    with open('site.yml', 'a')as the_file:
+        the_file.write("     - add_provision\n")
     # Resource management
     compute_name = is_alphanumeric("Please enter the name for the compute nodes[compute]: ", "compute")
     buffer = "c_name: " + compute_name + "\n"
@@ -253,6 +256,9 @@ if minimal == True:
         the_file.write(buffer)
     with open('site.yml', 'a')as the_file:
         the_file.write("     - initial_bos_image\n")
+    # OHPC components
+    with open('site.yml', 'a')as the_file:
+        the_file.write("     - ohpc_components\n")
     # Customise sys config
     home_mount = generic("Please enter the home mount point[/home]: ", "/home")
     buffer = "home_mount: " + home_mount + "\n"
@@ -264,6 +270,15 @@ if minimal == True:
         the_file.write(buffer)
     with open('site.yml', 'a') as the_file:
         the_file.write("     - customise_sys_config\n")
+    # import files cores
+    with open('site.yml', 'a')as the_file:
+        the_file.write("     - import_files_core\n")
+    # bootstrap_core
+    with open('site.yml', 'a')as the_file:
+        the_file.write("     - bootstrap_core\n")
+    # VNFS
+    with open('site.yml', 'a')as the_file:
+        the_file.write("     - vnfs\n")
     # Register nodes core
     c_provision = required("Please enter the compute node provisioning interface: ")
     buffer = "eth_provision: " + c_provision + "\n"
@@ -334,6 +349,7 @@ else:
     ip_netmask = netmask("Please enter the netmask for the headnode[255.255.255.0]: ", "255.255.255.0")
     # Install BOS
     chroot = generic("Please enter the chroot location[/opt/ohpc/admin/images/centos7.4]: ", "/opt/ohpc/admin/images/centos7.4")
+    # OHPC components
     # Customise sys config
     home_mount = generic("Please enter the home mount point[/home]: ", "/home")
     opt_mount = generic("Please enter the opt mount point[/opt/ohpc/pub]: ", "/opt/ohpc/pub")
