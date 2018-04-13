@@ -180,14 +180,17 @@ def default_dev(answer):
 
 minimal = yes_no('Deploy Minimal Configuration? ')
 if minimal == True:
+    # External IP
+    ipaddr_network_ex = ip_network("Please enter external IP network[192.168.0.]: ", "192.168.0.")
+    ipaddr_client_ex = ip_client("Please enter external IP client address[1]: ", "1")
+    with open('hosts', 'w') as the_file:
+        the_file.write('{0}\n{1}\n{2}\n{3}\n{4}{5}{6}\n'.format("all:", " hosts:", "  headnode:", "   ansible_port: 22", "   ansible_host: ", ipaddr_network_ex, ipaddr_client_ex))
     # BOS
     ipaddr_network = ip_network("Please enter headnode IP network[192.168.0.]: ", "192.168.0.")
     ipaddr_client = ip_client("Please enter headnode IP client address[1]: ", "1")
     buffer = "sms_ip: " + ipaddr_network + ipaddr_client + "\n"
     with open('./group_vars/all', 'w') as the_file:
         the_file.write(buffer)
-    with open('hosts', 'w') as the_file:
-        the_file.write('{0}\n{1}\n{2}\n{3}\n{4}{5}{6}\n'.format("all:", " hosts:", "  headnode:", "   ansible_port: 22", "   ansible_host: ", ipaddr_network, ipaddr_client))
     sms_name = generic("Please enter the headnode hostname[headnode]: ", "headnode")
     buffer = "sms_name: " + sms_name + "\n"
     with open('./group_vars/all', 'a') as the_file:
