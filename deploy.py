@@ -31,7 +31,6 @@ def ip_network(answer, default):
     # Validates the input of any IP network addresses
     while True:
         input = raw_input(answer)
-        print(input)
         # if the input matches the format expected return it
         if re.match("^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}$", input):
             return input
@@ -46,7 +45,6 @@ def ip_client(answer, default):
     # Validates the input of any IP host addresses
     while True:
         input = raw_input(answer)
-        print(input)
         # if the input matches the format expected return it
         if re.match("^(([1-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-4]))$", input):
             return input
@@ -61,7 +59,6 @@ def ip_full(answer, defualt):
     # Validates the input of any full IP addresses
     while True:
         input = raw_input(answer)
-        print(input)
         # if the input matches the format expected return it
         if re.match("^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$", input):
             return input
@@ -77,7 +74,6 @@ def netmask(answer, default):
     # Validates the input of any netmasks
     while True:
         input = raw_input(answer)
-        print(input)
         # if the input matches the format return it
         if re.match("^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$", input):
             return input
