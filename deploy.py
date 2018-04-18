@@ -55,7 +55,7 @@ def ip_client(answer, default):
         else:
             print("Please give the host address in this format: 255")
 
-def ip_full(answer, defualt):
+def ip_full(answer, default):
     # Validates the input of any full IP addresses
     while True:
         input = raw_input(answer)
@@ -381,11 +381,11 @@ else:
         ib_network = ip_network("Please enter the IB network for the headnode[192.168.5.]: ", "192.168.5.")
         ib_client = ip_client("Please enter the IB client address for the headnode[1]: ", "1")
         buffer = "master_ipoib: " + ib_network + ib_client + "\n"
-        with open('./group_vars/all', 'w') as the_file:
+        with open('./group_vars/all', 'a') as the_file:
             the_file.write(buffer)
-        ib_netmask = ip_netmask("Please enter the IB netmask[255.255.255.0]: ", "255.255.255.0")
+        ib_netmask = netmask("Please enter the IB netmask[255.255.255.0]: ", "255.255.255.0")
         buffer = "ipoib_netmask: " + ib_netmask + "\n"
-        with open('./group_vars/all', 'w') as the_file:
+        with open('./group_vars/all', 'a') as the_file:
             the_file.write(buffer)
     # Omnipath base
     omnipath_base = yes_no("Add omnipath base? ")
@@ -427,8 +427,8 @@ else:
     # Infiniband drivers compute
     c_infiniband_support = yes_no("Add Infiniband Support to compute nodes? ")
     if c_infiniband_support == True:
-    with open('site.yml', 'a') as the_file:
-        the_file.write("     - infiniband_drivers_comp\n")
+        with open('site.yml', 'a') as the_file:
+            the_file.write("     - infiniband_drivers_comp\n")
     # mem limit
     mem_limit = yes_no("Increase locked memory limit? ")
     if mem_limit == True:
@@ -447,7 +447,7 @@ else:
         with open('group_vars/all', 'a') as the_file:
             the_file.write(buffer)
         beegfs_ip = ip_full("Please enter the Beegfs IP address[192.168.0.254]: ", "192.168.0.1")
-        buffer = "systemtd_host: " + sysmgmtd_host + "\n"
+        buffer = "systemtd_host: " + beegfs_ip + "\n"
         with open('group_vars/all', 'a') as the_file:
             the_file.write(buffer)
         with open('site.yml', 'a') as the_file:
@@ -457,7 +457,7 @@ else:
     if lustre == True:
         lustre_mount = generic("Please enter the Lustre mount point[/mnt/lustre]: ", "/mnt/lustre")
         lustre_ip = ip_full("Please enter the Lustre IP[192.168.0.254]: ", "192.168.0.254")
-        buffer = "mgs_fs_name: " + lustre_ip + lustre_mnt + "\n"
+        buffer = "mgs_fs_name: " + lustre_ip + lustre_mount + "\n"
         with open('group_vars/all', 'a') as the_file:
             the_file.write(buffer)
         with open('site.yml', 'a') as the_file:

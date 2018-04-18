@@ -9,9 +9,31 @@
   roles:
      - install_bos
      - enable_ohpc_repo
+     - add_provision
      - resource_management
      - basic_warewulf
      - initial_bos_image
+     - ohpc_components
      - customise_sys_config
+     - mem_limit
+     - ssh_control
+     - forward_logs
+     - ganglia
+     - clustershell
+     - mrsh
+     - genders
+     - conman
+     - import_files_core
+     - bootstrap_updates
+     - bootstrap_core
+     - vnfs
      - register_nodes_core
-     - boot_nodes
+     - register_nodes_predictable
+     #- stateful_legacy
+     #- boot_nodes
+     - development_tools
+     - compilers
+     - mpi
+     - default_dev_env
+     - performance_tools
+     #- resource_startup

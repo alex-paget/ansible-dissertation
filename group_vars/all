@@ -1,26 +1,27 @@
-sms_ip: 192.168.0.1
-sms_name: headnode
+sms_ip: 192.168.6.2
+sms_name: headnode2
 ohpc_repo: http://build.openhpc.community/OpenHPC:/1.3/CentOS_7/x86_64/ohpc-release-1.3-1.el7.x86_64.rpm
 ntp_server: 0.centos.pool.ntp.org
 c_name: compute
-num_computes: 4
-num_sockets: 2
-num_cores: 8
+num_computes: 2
+num_sockets: 1
+num_cores: 1
 num_threads: 2
-sms_eth_internal: eno1
+sms_eth_internal: ens37
 sms_netmask: 255.255.255.0
 chroot: /opt/ohpc/admin/images/centos7.4
 home_mount: /home
 opt_mount: /opt/ohpc/pub
-eth_provision: eno1
-c_ip: 192.168.0.
-c_ip_last: 2
+eth_provision: eth0
+c_ip: 192.168.6.
+c_ip_last: 3
 c_mac: 
-  - f
-  - k
-  - l
-  - j
+  - 00:50:56:29:8B:D1
+  - 00:50:56:39:AE:CB
 bmc_host: 192.168.0.
 bmc_ip: 2
-bmc_username: ad
-bmc_password: pa
+bmc_username: admin
+bmc_password: pass
+gnu_compiler: true
+ethernet_mpi: true
+openmpi3_dev_env: true
