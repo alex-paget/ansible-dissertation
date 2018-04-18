@@ -380,7 +380,11 @@ else:
             the_file.write("     - infiniband_support\n")
         ib_network = ip_network("Please enter the IB network for the headnode[192.168.5.]: ", "192.168.5.")
         ib_client = ip_client("Please enter the IB client address for the headnode[1]: ", "1")
-        buffer = "sms_ip: " + ib_network + ib_client + "\n"
+        buffer = "master_ipoib: " + ib_network + ib_client + "\n"
+        with open('./group_vars/all', 'w') as the_file:
+            the_file.write(buffer)
+        ib_netmask = ip_netmask("Please enter the IB netmask[255.255.255.0]: ", "255.255.255.0")
+        buffer = "ipoib_netmask: " + ib_netmask + "\n"
         with open('./group_vars/all', 'w') as the_file:
             the_file.write(buffer)
     # Omnipath base
@@ -645,62 +649,3 @@ else:
     # Resource startup
     with open('site.yml', 'a') as the_file:
         the_file.write("     - resource_startup\n")
-
-# # Write to file
-# user_defined = [ipaddr_network, ip_client, sms_name, repo, ntp, compute_name, compute_no, socket_no, core_no, threads_no, interal_interface, ip_netmask, chroot, home_mount, opt_mount, bmc_network, bmc_client, c_provision, c_ipaddr_network, c_ipaddr_client]
-# for x in range(len(user_defined)):
-#     if user_defined[x] != None:
-#         print(user_defined[x])
-# for x in range(len(c_mac)):
-#     print(c_mac[x])
-# if infiniband_support != None:
-#     print(infiniband_support)
-#     print(ib_network, ib_client)
-# if omnipath_base != None:
-#     print(omnipath_base)
-# if c_infiniband_support != None:
-#     print(c_infiniband_support)
-#     print(c_ipoib_network, c_ipoib_client)
-# if mem_limit != None:
-#     print(mem_limit)
-# if ssh != None:
-#     print(ssh)
-# if beegfs != None:
-#     print(beegfs)
-#     print(beegfs_repo, beegfs_ip)
-# if lustre != None:
-#     print(lustre)
-#     print(lustre_mount, lustre_ip)
-# if logs != None:
-#     print(logs)
-# if nagios != None:
-#     print(nagios)
-#     print(nagios_user, nagios_pass)
-# if ganglia != None:
-#     print(ganglia)
-# if clustershell != None:
-#     print(clustershell)
-# if mrsh != None:
-#     print(mrsh)
-# if genders != None:
-#     print(genders)
-# if conman != None:
-#     print(conman)
-# if bootstrap_kernel != None:
-#     print(bootstrap_kernel)
-# if bootstrap_singularity != None:
-#     print(bootstrap_singularity)
-# if register_predictable != None:
-#     print(register_predictable)
-# if stateful_mode == "efi":
-#     print("efi")
-# elif stateful_mode == "legacy":
-#     print("legacy")
-# else:
-#     print("stateful empty")
-# if dev != None:
-#     print(dev)
-#     user_dev = [compiler, mpi, default_dev, performance_tools]
-#     for x in range(len(user_dev)):
-#         if user_dev[x] != None:
-#             print(user_dev[x])
