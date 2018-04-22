@@ -649,3 +649,4 @@ else:
     # Resource startup
     with open('site.yml', 'a') as the_file:
         the_file.write("     - resource_startup\n")
+print("Please run \"ansible-playbook -i hosts site.yml -vv\" to deploy the cluster")
