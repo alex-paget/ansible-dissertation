@@ -16,7 +16,7 @@
   replace:
     path: /etc/slurm/slurm.conf
     regexp: "NodeName=(.*)"
-    replace: "NodeName={{ c_name }}[0-{{ num_computes|int - 1 }}] Sockets={{ num_sockets }} CoresPerSocket={{ num_cores }} ThreadsPerCore={{ num_threads }} State=UNKOWN"
+    replace: "NodeName={{ c_name }}[0-{{ num_computes|int - 1 }}] Sockets={{ num_sockets }} CoresPerSocket={{ num_cores }} ThreadsPerCore={{ num_threads }} State=UNKNOWN"
 
 - name: Define Compute Partition
   replace:
